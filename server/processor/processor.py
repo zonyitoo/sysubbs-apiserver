@@ -124,9 +124,9 @@ class BasicBoardProcessor(Processor):
         """
         raise NotImplementedError()
 
-class BasicPostProcessor(self):
+class BasicPostProcessor(Processor):
     """
-    BasciPostProcessor, used to get/set posts' information
+    BasicPostProcessor, used to get/set posts' information
     """
     def get_board_topics_list(self):
         """
