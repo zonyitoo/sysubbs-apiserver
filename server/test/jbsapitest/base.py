@@ -53,3 +53,14 @@ get_near_post_site = host + "/ajax/post/nearname/"
 get_same_topic_posts_site = host + "/ajax/post/topiclist/"
 add_post_site = host + "/ajax/post/add/"
 del_post_site = host + "/ajax/post/del/"
+
+"""
+~~~
+mail
+~~~
+"""
+get_mailbox_info_site = host + "/ajax/mail/mailbox/"
+get_maillist_info_site = host + "/ajax/mail/list/"
+get_mail_content_site = host + "/ajax/mail/get/"
+send_mail_site = host + "/ajax/mail/send/"
+del_mail_site = host + "/ajax/mail/del/"
