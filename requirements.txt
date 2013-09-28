@@ -1,3 +1,14 @@
-Flask
-Flask-Cache
-requests
+Flask==0.10.1
+Flask-Cache==0.12
+Jinja2==2.7.1
+MarkupSafe==0.18
+Pygments==1.6
+Werkzeug==0.9.4
+argparse==1.2.1
+bpython==0.12
+distribute==0.6.34
+itsdangerous==0.23
+pyasn1==0.1.7
+requests==1.2.3
+rsa==3.1.2
+wsgiref==0.1.2
