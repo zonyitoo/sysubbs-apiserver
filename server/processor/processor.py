@@ -10,8 +10,8 @@ class Processor(object):
     Processor is used to retrieve data from the server
     and format it in a correctly api format
     """
-    def __init__(self):
-        raise NotImplementedError()
+    def __init__(self, app):
+        self.app = app
 
 class BasicSessionProcessor(Processor):
     """

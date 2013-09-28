@@ -19,7 +19,7 @@ def send_mail(cookies, title, content, receiver):
     r = requests.post(send_mail_site, cookies=cookies, data={'title': title, 'content': content, 'receiver': receiver})
     return r.json()
 
-def del_mail(cookies, indexes):
+def del_mail(cookies, indexes): # something wrong
     r = requests.post(del_mail_site, cookies=cookies, data={'indexes': indexes})
     return r.text
 
@@ -39,5 +39,5 @@ if __name__ == '__main__':
     send_mail_data = send_mail(cookie, 'test', 'test jsbbs api', 'zhongyut')
     print "send_mail_data, response: %s" % send_mail_data
 
-    del_mail_data = del_mail(cookie, [3, ])
+    del_mail_data = del_mail(cookie, (3, ))
     print "del_mail_data, response: %s" % del_mail_data

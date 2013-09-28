@@ -32,8 +32,7 @@ if __name__ == '__main__':
     #print "get_all_boardnames, response: %s" % boardname_data
 
     #boards_info_data = get_all_boards_info()
-    #print len(boards_info_data['data']['all'])
-    #print "get_all_boards_info, response: %s" % boards_info_data['data']['all']
+    #print "get_all_boards_info, response: %s" % boards_info_data
 
     board_info_data = get_board_info('water')
     print "get_board_info, response: %s" % board_info_data
