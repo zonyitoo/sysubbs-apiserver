@@ -28,8 +28,6 @@ class Handler(object):
         {
             "server_publickey": "...",
             "login_token": "...",
-            "success": true,
-            "errmsg": "ok"
         }
         """
         login_token = str(uuid.uuid1())
@@ -57,7 +55,7 @@ class Handler(object):
             return None
 
         rsa_pub = rsa.PublicKey.load_pkcs1(client_publickey)
-        return rsa.encrypt(rsa_pub, message).encode("hex")
+        return rsa.encrypt(rsa_pub, message)
         
     def authorization_decrypt(self, message):
         """
