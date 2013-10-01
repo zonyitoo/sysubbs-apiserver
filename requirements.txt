@@ -1,5 +1,6 @@
 Flask
 Flask-Cache
+Flask-Script
 requests
 bpython
 redis
