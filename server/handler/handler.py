@@ -24,7 +24,7 @@ class Handler(object):
         @param:
         client_publickey: Client's public key, in PKCS#1 format
 
-        @return 
+        @return
         {
             "server_publickey": "...",
             "login_token": "...",
