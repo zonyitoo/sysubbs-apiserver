@@ -11,6 +11,10 @@ class Processor(object):
     and format it in a correctly api format
     """
     def __init__(self, app):
+        """
+        pass app to each Processor class,
+        make some awesome
+        """
         self.app = app
 
 class BasicSessionProcessor(Processor):
