@@ -9,6 +9,8 @@ class Processor(object):
     Basic Processor class
     Processor is used to retrieve data from the server
     and format it in a correctly api format
+    if request fail, it only return the error code,
+    and pass to Handler the process this error code
     """
     def __init__(self, app):
         """
