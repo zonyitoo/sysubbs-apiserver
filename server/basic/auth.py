@@ -55,15 +55,15 @@ def gen_server_key(username):
     """
     pass
 
-def get_login_token_from_authorization(authorization):
+def get_access_token_from_authorization(authorization):
     """
-    decrypt the login_token in Authorization header
+    decrypt the access_token in Authorization header
 
     Args:
         authentication (str): the encrypted login_token
 
     Returns:
-        the decrypted login_token
+        the decrypted access_token
     """
     pass
 
@@ -104,7 +104,6 @@ functions used for login
 class LoginHelper(object):
     def __init__(self, client_public_key, username):
         self.client_public_key = client_public_key
-        self.server_public_key, self.server_secret_key = gen_server_key(username)
         self.username = username
 
     def store_keys(self):
