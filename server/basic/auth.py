@@ -42,17 +42,16 @@ redis_instance = RedisInstance.create_instance().r
 """
 functions used for authentication after login
 """
-def gen_server_public_key(username, password):
+def gen_server_key(username):
     """
     generate server public key and secrect key for a user
 
     Args:
         username (str): username
-        password (str): password
 
     Returns:
         the server public key and secrect key, in this format:
-        (public_key, secrect_key)
+        (public_key, secret_key)
     """
     pass
 
@@ -103,5 +102,16 @@ def require_auth(func):
 functions used for login
 """
 class LoginHelper(object):
-    def __init__(self, client_public_key):
+    def __init__(self, client_public_key, username):
         self.client_public_key = client_public_key
+        self.server_public_key, self.server_secret_key = gen_server_key(username)
+        self.username = username
+
+    def store_keys(self):
+        """
+        store keys to redis
+        """
+        pass
+
+    def get_pwd_from_auth(self, auth):
+        pass
