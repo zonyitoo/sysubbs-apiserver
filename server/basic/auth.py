@@ -39,20 +39,24 @@ class RedisInstance(object):
 
 redis_instance = RedisInstance.create_instance().r
 
+"""
+functions used for authentication after login
+"""
 def gen_server_public_key(username, password):
     """
-    generate a server public key for a user
+    generate server public key and secrect key for a user
 
     Args:
         username (str): username
         password (str): password
 
     Returns:
-        the server public key
+        the server public key and secrect key, in this format:
+        {'server_public_key': public_key, 'server_secrect_key': secrect_key}
     """
     pass
 
-def get_user_info_from_authorization(authorization):
+def get_login_token_from_authorization(authorization):
     """
     decrypt the login_token in Authorization header
 
@@ -94,3 +98,10 @@ def require_auth(func):
             return fail_auth()
         return func(*args, **kwargs)
     return decorated
+
+"""
+functions used for login
+"""
+class LoginHelper(object):
+    def __init__(self, client_public_key):
+        self.client_public_key = client_public_key
