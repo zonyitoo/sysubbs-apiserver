@@ -3,8 +3,8 @@
 data object specification
 """
 section_object = """
-                 {'sectionCode': sectionCode, 'sectionName': sectionName}
-                 """
+        {'sectionCode': sectionCode, 'sectionName': sectionName}
+        """
 friend_ojbect = """
         {'userid': userid, remark: 'remark'}
         """ # in most cases, the remark may be null string
@@ -13,10 +13,10 @@ board_object = """
         'lastPostFile': filename, 'lastPostTitle': posttitle, 'sectionCode': sectionCode, 'totalPost': postnum}
         """ # lastPostFile, lastPost may be null in board api
 user_info_object = """
-                   {'userid': userid, 'useralias': userAlias, 'signature': signature,
-                    'introduction': introduction, 'gender': gender, 'stayTime': stay,
-                    'lastlogin': timestamp, 'postsNum': postNum}
-                   """
+        {'userid': userid, 'useralias': userAlias, 'signature': signature,
+         'introduction': introduction, 'gender': gender, 'stayTime': stay,
+         'lastlogin': timestamp, 'postsNum': postNum}
+        """
 
 """
 fill object methods

@@ -1,16 +1,55 @@
 import requests
 
 from server.basic import BasicUserProcessor
+from urls import *
 
 class UserProcessor(BasicUserProcessor):
     """
     UserProcessor for jsbbs API
     """
+
+    def register(self):
+        """
+        NOT open register in this version
+        """
+        raise NotImplementedError()
+
     def login(self, username, password):
-        pass
+        """
+        login user
+        Args:
+            username (str): the userid
+            password (str): the password
+
+        Returns:
+            the login token, that is the cookie, with this format:
+            {'PHPSESSID': cookie_value}
+            and just return the cookie_value
+        """
+        r = requests.post(login_site, data={"userid": username, "passwd": password})
+        resp = r.json()
+        if resp['success']:
+            return r.cookies.get('PHPSESSID')
+        else:
+            code = resp['code']
+            return code
 
     def logout(self, cookie):
-        pass
+        """
+        logout user
+        Args:
+            cookie (str): that is, the login token
+        Returns:
+            True, if logout success or
+            the error code if logout fail
+        """
+        r = requests.post(logout_site, cookies=cookies)
+        resp = r.json()
+        if resp['success']:
+            return True
+        else:
+            code = resp['code']
+            return code
 
     def get_friends(self):
         pass
