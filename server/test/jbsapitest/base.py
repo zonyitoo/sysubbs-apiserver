@@ -64,3 +64,10 @@ get_maillist_info_site = host + "/ajax/mail/list/"
 get_mail_content_site = host + "/ajax/mail/get/"
 send_mail_site = host + "/ajax/mail/send/"
 del_mail_site = host + "/ajax/mail/del/"
+
+"""
+~~~
+misc
+~~~
+"""
+get_errcode_site = host + "/ajax/misc/errorcode"

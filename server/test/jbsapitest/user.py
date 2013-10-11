@@ -41,8 +41,8 @@ def login(username, password):
     r = requests.post(login_site, data={"userid": username, "passwd": password})
     return {"cookie": r.cookies, "data": r.json()}
 
-def logout(cookies, username, password):
-    r = requests.post(logout_site, params={'userid': username, 'passwd': password}, cookies=cookies)
+def logout(cookies):
+    r = requests.post(logout_site, cookies=cookies)
     return r.json()
 
 def get_friends(cookies):
@@ -140,44 +140,43 @@ def save_binary_content(binary_content, out_filename):
 
 
 if __name__ == '__main__':
-    login_data = login('okone', '8612001')
+    login_data = login('okone', '86120011')
     cookie = login_data['cookie']
-    print 'login, cookie: %s \n success: %s \n data: %s \n ' % (login_data['cookie'], login_data['data']['success'],
-            login_data['data']['data'])
+    print 'login, \n cookie: %s, \n response: %s ' % (login_data['cookie'], login_data['data'])
 
-    #logout_data = logout(cookie, 'okone', '8612001')
-    #print 'logout, success: %s \n data: %s' % (logout_data['success'], logout_data['data'])
+    logout_data = logout(cookie)
+    print 'logout, response: %s' % logout_data
 
-    get_friends_data = get_friends(cookie)
-    print "get_friends, response: %s" % get_friends_data
+    #get_friends_data = get_friends(cookie)
+    #print "get_friends, response: %s" % get_friends_data
 
-    del_friend_data = del_friend(cookie, 'zhongyut')
-    print "del_friend, response: %s" % del_friend_data
+    #del_friend_data = del_friend(cookie, 'zhongyut')
+    #print "del_friend, response: %s" % del_friend_data
 
-    add_friend_data = add_friend(cookie, 'zhongyut', '')
-    print "add_friend, reponse: %s " % add_friend_data
+    #add_friend_data = add_friend(cookie, 'zhongyut', '')
+    #print "add_friend, reponse: %s " % add_friend_data
 
-    #get_fav_boards_data = get_fav_boards(cookie)
-    #print "get_fav_boards, response: %s" % get_fav_boards_data
+    ##get_fav_boards_data = get_fav_boards(cookie)
+    ##print "get_fav_boards, response: %s" % get_fav_boards_data
 
-    del_fav_board_data = del_fav_board(cookie, 'Lecture')
-    print "del_fav_board, response: %s" % del_fav_board_data
+    #del_fav_board_data = del_fav_board(cookie, 'Lecture')
+    #print "del_fav_board, response: %s" % del_fav_board_data
 
-    add_fav_board_data = add_fav_board(cookie, 'Lecture')
-    print "add_fav_board, response: %s" % add_fav_board_data
+    #add_fav_board_data = add_fav_board(cookie, 'Lecture')
+    #print "add_fav_board, response: %s" % add_fav_board_data
 
-    query_other_user_data = query_other_user('zhongyut')
-    print "query_other_user, response: %s" % query_other_user_data
+    #query_other_user_data = query_other_user('zhongyut')
+    #print "query_other_user, response: %s" % query_other_user_data
 
-    query_user_self_data = query_user_self_info(cookie)
-    print "query_user_self, response: %s" % query_user_self_data
+    #query_user_self_data = query_user_self_info(cookie)
+    #print "query_user_self, response: %s" % query_user_self_data
 
-    update_user_info_data = update_user_info(cookie,
-            plan="2B or not 2B? \n mail: okone1288@gmail.com", birthyear=1992, signature='2b or not 2b')
-    print "update_user_info, response: %s" % update_user_info_data
+    #update_user_info_data = update_user_info(cookie,
+    #        plan="2B or not 2B? \n mail: okone1288@gmail.com", birthyear=1992, signature='2b or not 2b')
+    #print "update_user_info, response: %s" % update_user_info_data
 
-    #update_user_avatar_data = update_user_avatar(cookie, open("avatar1.jpg"))
-    #print "update_user_avatar, reponse: %s" % update_user_avatar_data
+    ##update_user_avatar_data = update_user_avatar(cookie, open("avatar1.jpg"))
+    ##print "update_user_avatar, reponse: %s" % update_user_avatar_data
 
-    avatar_binary = get_user_avatar('zhongyut')
-    save_binary_content(avatar_binary, 'testfile.jpg')
+    #avatar_binary = get_user_avatar('zhongyut')
+    #save_binary_content(avatar_binary, 'testfile.jpg')
