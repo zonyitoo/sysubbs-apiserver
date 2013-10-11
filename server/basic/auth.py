@@ -52,7 +52,7 @@ def gen_server_public_key(username, password):
 
     Returns:
         the server public key and secrect key, in this format:
-        {'server_public_key': public_key, 'server_secrect_key': secrect_key}
+        (public_key, secrect_key)
     """
     pass
 
