@@ -42,16 +42,16 @@ redis_instance = RedisInstance.create_instance().r
 """
 functions used for authentication after login
 """
-def gen_server_key(username):
+
+def decrypt_client_data(data):
     """
-    generate server public key and secrect key for a user
+    decrypt client post data, use server's secret key
 
     Args:
-        username (str): username
+        data (str): client post data
 
     Returns:
-        the server public key and secrect key, in this format:
-        (public_key, secret_key)
+        the decrypted data
     """
     pass
 
@@ -98,19 +98,35 @@ def require_auth(func):
         return func(*args, **kwargs)
     return decorated
 
-"""
-functions used for login
-"""
-class LoginHelper(object):
-    def __init__(self, client_public_key, username):
-        self.client_public_key = client_public_key
-        self.username = username
 
-    def store_keys(self):
-        """
-        store keys to redis
-        """
-        pass
+"""
+"""
+def gen_login_token():
+    """
+    generate a new login_token
 
-    def get_pwd_from_auth(self, auth):
-        pass
+    Returns:
+        a new login_token (str)
+    """
+    pass
+
+def query_client_public_key(login_token):
+    """
+    query client public key according to the login_token
+
+    Args:
+        login_token (str): the login_token
+
+    Returns:
+        the client public key, if not exist, return None
+    """
+    pass
+
+def gen_access_token():
+    """
+    generate a new access_token
+
+    Returns:
+        a new access_token (str)
+    """
+    pass
