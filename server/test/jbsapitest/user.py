@@ -140,7 +140,7 @@ def save_binary_content(binary_content, out_filename):
 
 
 if __name__ == '__main__':
-    login_data = login('okone', '86120011')
+    login_data = login('okone', '8612001')
     cookie = login_data['cookie']
     print 'login, \n cookie: %s, \n response: %s ' % (login_data['cookie'], login_data['data'])
 

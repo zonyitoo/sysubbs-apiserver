@@ -1,7 +1,20 @@
 from flask import Flask
 
 def init_app():
+    """
+    this app is used for launch
+    """
     app = Flask(__name__)
+    app.config.from_pyfile('config.py')
+
+    return app
+
+def init_util_app():
+    """
+    this app is used for other files
+    """
+    app = Flask(__name__)
+    app.config.from_pyfile('config.py')
 
     return app
 
