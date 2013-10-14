@@ -8,7 +8,6 @@ the access_token store in this format:
     "auth:access_token:[access_token_value]: {
                     'client_publickey': '....',
                     'username': '...',
-                    'nounce': '...',
                     'cookies':cookie}"
 """
 login_token_key_format = 'auth:login_token:[%s]'
@@ -18,6 +17,7 @@ import uuid
 import rsa
 import redis
 import json
+import time
 
 from functools import wraps
 from flask import request, Response, make_response
@@ -71,7 +71,7 @@ def store_login_token(login_token, token_info):
     the login_token will expired in 120 minutes
 
     Args:
-        login_token (str): the access_token
+        login_token (str): the login_token
         token_info (dict): the token value
     """
     redis_instance.setex(login_token_key_format % login_token, 7200, json.dumps(token_info))
@@ -86,7 +86,7 @@ def decrypt_client_data(data):
     Returns:
         the decrypted data
     """
-    private_key = rsa.PrivateKey.load_pkcs1(_app.config['SERVER_PRIVATE_KEY'])
+    private_key = _app.config['SERVER_PRIVATE_KEY']
     return rsa.decrypt(data, private_key)
 
 def encrypt_data_by_client_publickey(data, client_publickey):
@@ -115,7 +115,7 @@ def get_access_token_and_nounce(authorization):
         in this format:
             {'access_token': access_token, 'nounce': nounce}
     """
-    client_decrypeted_data = decrypt_client_data(authentication)
+    client_decrypeted_data = decrypt_client_data(authorization)
     client_info = json.loads(client_decrypeted_data)
     return client_info
 
@@ -128,28 +128,25 @@ def check_auth(authorization):
     Returns:
         True, if auth succes or False if fail
     """
-    user_info = get_access_token_and_nounce(authentication)
+    user_info = get_access_token_and_nounce(authorization)
     access_token = user_info.get('access_token')
     if not access_token:
         return False
     nounce = user_info.get('nounce')
     if not nounce:
         return False
-    # get access_token from storage
+
     store_user_info = redis_instance.get(access_token_key_format % access_token)
     if not store_user_info:
         return False
-    store_user_info = json.loads(store_user_info)
-    last_nounce = store_user_info.get('nounce')
-    if last_nounce == nounce:
+
+    current_timestamp = int(time.time())
+    # 3 minutes
+    if int(nounce) > current_timestamp or current_timestamp - int(nounce) > 120:
         return False
-    else:
-        # update nounce
-        store_user_info['nounce'] = nounce
-        store_access_token(access_token, store_user_info)
-        return True
 
-
+    return True
+    
 def fail_auth():
     """
     return this when fail to auth
