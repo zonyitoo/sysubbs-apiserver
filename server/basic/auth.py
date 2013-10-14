@@ -76,7 +76,7 @@ def store_login_token(login_token, token_info):
     """
     redis_instance.setex(login_token_key_format % login_token, 7200, json.dumps(token_info))
 
-def __rsa128_encryte_str(data, public_key):
+def __rsa128_encrypt_str(data, public_key):
     data_remain = data
     result = ''
     while data_remain:
@@ -121,7 +121,7 @@ def encrypt_data_by_client_publickey(data, client_publickey):
         the encrypted data
     """
     public_key = rsa.PublicKey.load_pkcs1(client_publickey)
-    return __rsa128_encryte_str(data, public_key)
+    return __rsa128_encrypt_str(data, public_key)
 
 def get_access_token_and_nounce(authorization):
     """
