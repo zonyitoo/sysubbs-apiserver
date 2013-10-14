@@ -1,4 +1,3 @@
-#-*- coding: urtf8 -*-
 """
 Helper classes and methods for authentication
 
@@ -75,7 +74,7 @@ def store_login_token(login_token, token_info):
         login_token (str): the access_token
         token_info (dict): the token value
     """
-    redis_instance.set(login_token_key_format % login_token, 7200, json.dumps(token_info))
+    redis_instance.setex(login_token_key_format % login_token, 7200, json.dumps(token_info))
 
 def decrypt_client_data(data):
     """
@@ -89,6 +88,20 @@ def decrypt_client_data(data):
     """
     private_key = rsa.PrivateKey.load_pkcs1(_app.config['SERVER_PRIVATE_KEY'])
     return rsa.decrypt(data, private_key)
+
+def encrypt_data_by_client_publickey(data, client_publickey):
+    """
+    encrypt data used client public key
+
+    Args:
+        data (str): the data to encrypt
+        client_publickey (str): the client public key in pkcs#1 format
+
+    Returns:
+        the encrypted data
+    """
+    public_key = rsa.PublicKey.load_pkcs1(client_publickey)
+    return rsa.encrypt(data, public_key)
 
 def get_access_token_and_nounce(authorization):
     """
@@ -128,7 +141,7 @@ def check_auth(authorization):
         return False
     store_user_info = json.loads(store_user_info)
     last_nounce = store_user_info.get('nounce')
-    if not last_nounce or last_nounce == nounce:
+    if last_nounce == nounce:
         return False
     else:
         # update nounce
@@ -180,7 +193,11 @@ def query_client_public_key(login_token):
     Returns:
         the client public key, if not exist, return None
     """
-    return redis_instance.get(login_token_key_format % login_token)
+    login_token_value = redis_instance.get(login_token_key_format % login_token)
+    if login_token_value:
+        login_token_value = json.loads(login_token_value)
+        return login_token_value.get('client_publickey')
+    return None
 
 def gen_access_token():
     """
