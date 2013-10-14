@@ -76,6 +76,26 @@ def store_login_token(login_token, token_info):
     """
     redis_instance.setex(login_token_key_format % login_token, 7200, json.dumps(token_info))
 
+def __rsa128_encryte_str(data, public_key):
+    data_remain = data
+    result = ''
+    while data_remain:
+        cur = data_remain[:5]
+        result += rsa.encrypt(cur, public_key)
+        data_remain = data_remain[5:]
+
+    return result
+
+def __rsa128_decrypt_str(data, private_key):
+    data_remain = data
+    result = ''
+    while data_remain:
+        cur = data_remain[:16]
+        result += rsa.decrypt(cur, private_key)
+        data_remain = data[16:]
+
+    return result
+
 def decrypt_client_data(data):
     """
     decrypt client post data, use server's private key
@@ -87,7 +107,7 @@ def decrypt_client_data(data):
         the decrypted data
     """
     private_key = _app.config['SERVER_PRIVATE_KEY']
-    return rsa.decrypt(data, private_key)
+    return __rsa128_decrypt_str(data, private_key)
 
 def encrypt_data_by_client_publickey(data, client_publickey):
     """
@@ -101,7 +121,7 @@ def encrypt_data_by_client_publickey(data, client_publickey):
         the encrypted data
     """
     public_key = rsa.PublicKey.load_pkcs1(client_publickey)
-    return rsa.encrypt(data, public_key)
+    return __rsa128_encryte_str(data, public_key)
 
 def get_access_token_and_nounce(authorization):
     """

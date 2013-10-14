@@ -8,7 +8,7 @@ REDIS_PORT = 6379
 
 SERVER_PUBLIC_KEY = rsa.PublicKey.load_pkcs1(
 u"""
------BEGIN RSA PUBLICKEY-----
+-----BEGIN RSA PUBLIC KEY-----
 MBgCEQC+xlMZRSu5W1fw4DqAlk9NAgMBAAE=
 -----END RSA PUBLIC KEY-----
 """)
