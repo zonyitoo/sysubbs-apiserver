@@ -135,6 +135,10 @@ def check_auth(authorization):
     nounce = user_info.get('nounce')
     if not nounce:
         return False
+    try:
+        nounce = int(nounce)
+    except:
+        return False
 
     store_user_info = redis_instance.get(access_token_key_format % access_token)
     if not store_user_info:
@@ -142,7 +146,7 @@ def check_auth(authorization):
 
     current_timestamp = int(time.time())
     # 3 minutes
-    if int(nounce) > current_timestamp or current_timestamp - int(nounce) > 120:
+    if nounce > current_timestamp or current_timestamp - nounce > 120:
         return False
 
     return True
