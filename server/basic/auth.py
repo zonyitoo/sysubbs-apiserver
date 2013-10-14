@@ -92,7 +92,7 @@ def __rsa128_decrypt_str(data, private_key):
     while data_remain:
         cur = data_remain[:16]
         result += rsa.decrypt(cur, private_key)
-        data_remain = data[16:]
+        data_remain = data_remain[16:]
 
     return result
 
