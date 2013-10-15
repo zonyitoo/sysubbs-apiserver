@@ -90,12 +90,12 @@ def __rsa128_encrypt_str(data, public_key):
         result += rsa.encrypt(cur, public_key)
         data_remain = data_remain[5:]
 
-    result = base64.encode(result)
+    result = base64.urlsafe_b64encode(result)
 
     return result
 
 def __rsa128_decrypt_str(data, private_key):
-    data = base64.decode(data)
+    data = base64.urlsafe_b64decode(data)
     data_remain = data
     result = ''
     while data_remain:
