@@ -144,8 +144,8 @@ def get_access_token_and_nounce(authorization):
         in this format:
             {'access_token': access_token, 'nounce': nounce}
     """
-    decoded_authorization = base64.urlsafe_b64decode(authorization)
-    client_decrypeted_data = decrypt_client_data(decoded_authorization)
+    #decoded_authorization = base64.urlsafe_b64decode(authorization)
+    client_decrypeted_data = decrypt_client_data(authorization)
     client_info = json.loads(client_decrypeted_data)
     return client_info
 
@@ -158,8 +158,8 @@ def check_auth(authorization):
     Returns:
         True, if auth succes or False if fail
     """
-    decoded_authorization = base64.urlsafe_b64decode(authorization)
-    user_info = get_access_token_and_nounce(decoded_authorization)
+    #decoded_authorization = base64.urlsafe_b64decode(authorization)
+    user_info = get_access_token_and_nounce(authorization)
     access_token = user_info.get('access_token')
     if not access_token:
         return False
