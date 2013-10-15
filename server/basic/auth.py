@@ -163,14 +163,23 @@ def check_auth(authorization):
     store_user_info = redis_instance.get(access_token_key_format % access_token)
     if not store_user_info:
         return False
-
-    current_timestamp = int(time.time())
-    # 3 minutes
-    if nounce > current_timestamp or current_timestamp - nounce > 120:
+    last_nounce = store_user_info.get('nounce')
+    if not last_nounce:
+        return False
+    try:
+        last_nounce = int(last_nounce)
+    except:
         return False
 
-    return True
-    
+    if nouce <= last_nounce:
+        # the new nounce(timestamp) must bigger than last one
+        return False
+    else:
+        # update new nounce
+        store_user_info['nounce'] = nounce
+        store_access_token(access_token, store_user_info)
+        return True
+
 def fail_auth():
     """
     return this when fail to auth

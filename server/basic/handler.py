@@ -4,68 +4,34 @@ import uuid
 import rsa
 import redis
 
-from functools import wraps
-from flask import request, Response
+from flask import Blueprint
 
 class Handler(object):
-
     """
-    Handler base class
+    basic Handler class
 
-    Handler is for restructuring data from client,
-    and retrieving data from a specific Processor.
+    Handler is a class that in charge of part of API,
+    it contains a flask.Blueprint object that makes
+    Handler act as a submodule of Flask app
     """
-
-    def __init__(self, server_publickey, server_privatekey, redis_instance):
-        self.server_publickey = server_publickey
-        self.server_privatekey = server_privatekey
-        self.redis_instance = redis_instance
-
-    def get_server_publickey(self, client_publickey):
+    def __init__(self, name, url_prefix):
         """
-        Get Server Public key.
+        init Handler with a prefix
 
-        @param:
-        client_publickey: Client's public key, in PKCS#1 format
-
-        @return
-        {
-            "server_publickey": "...",
-            "login_token": "...",
-        }
+        Args:
+            url_prefix (str): the url prefix used in register blueprint
+            name (str): the name of this handler
         """
-        login_token = str(uuid.uuid1())
-        while self.redis_instance.get(login_token):
-            login_token = str(uuid.uuid1())
+        self.blueprint = Blueprint(name, __name__)
+        self.url_prefix = url_prefix
 
-        self.redis_instance.set(login_token, client_publickey)
-        self.redis_instance.expire(login_token, 120)
-
-        response = {
-                'server_publickey': self.server_publickey.save_pkcs1(),
-                'login_token': login_token,
-            }
-
-        return response
-
-    def authorization_encrypt(self, login_token, message):
+    def register_handler(self, app):
         """
-        Encrypt message with Client_PublicKey
+        register this handler
+
+        Args:
+            app (Flask): the appliction object which this handler is
+            registered for
         """
+        app.register_blueprint(self.blueprint, url_prefix=self.url_prefix)
 
-        client_publickey = self.redis_instance.get(login_token)
-
-        if not client_publickey:
-            return None
-
-        rsa_pub = rsa.PublicKey.load_pkcs1(client_publickey)
-        return rsa.encrypt(rsa_pub, message)
-        
-    def authorization_decrypt(self, message):
-        """
-        Decrypt message
-        
-        @throw rsa.DecryptionError
-        """
-
-        return rsa.decrypt(self.server_privatekey, message)
