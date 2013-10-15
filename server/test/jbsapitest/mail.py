@@ -39,5 +39,9 @@ if __name__ == '__main__':
     #send_mail_data = send_mail(cookie, 'test', 'test jsbbs api', 'zhongyut')
     #print "send_mail_data, response: %s" % send_mail_data
 
+<<<<<<< Updated upstream
     del_mail_data = del_mail(cookie, ('4', ))
+=======
+    del_mail_data = del_mail(cookie, (3, ))
+>>>>>>> Stashed changes
     print "del_mail_data, response: %s" % del_mail_data

@@ -13,10 +13,13 @@ class Processor(object):
     and pass to Handler the process this error code
     """
     def __init__(self, app):
+<<<<<<< Updated upstream:server/basic/processor.py
         """
         pass app to each Processor class,
         make some awesome
         """
+=======
+>>>>>>> Stashed changes:server/processor/processor.py
         self.app = app
 
 class BasicSessionProcessor(Processor):

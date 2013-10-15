@@ -156,8 +156,13 @@ if __name__ == '__main__':
     #add_friend_data = add_friend(cookie, 'zhongyut', '')
     #print "add_friend, reponse: %s " % add_friend_data
 
+<<<<<<< Updated upstream
     ##get_fav_boards_data = get_fav_boards(cookie)
     ##print "get_fav_boards, response: %s" % get_fav_boards_data
+=======
+    get_fav_boards_data = get_fav_boards(cookie)
+    print "get_fav_boards, response: %s" % get_fav_boards_data
+>>>>>>> Stashed changes
 
     #del_fav_board_data = del_fav_board(cookie, 'Lecture')
     #print "del_fav_board, response: %s" % del_fav_board_data

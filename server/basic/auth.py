@@ -10,15 +10,10 @@ the access_token store in this format:
     "auth:access_token:[access_token_value]: {
                     'client_publickey': '....',
                     'username': '...',
-<<<<<<< HEAD
                     'cookies':cookie,
                     'nounce': 'timestamp'}"
 
     access_token will be expired in 30 days
-=======
-                    'nounce': ...,
-                    'cookies':cookie}"
->>>>>>> b03a69332f2663783278faaaba52d8747ee55bc9
 """
 login_token_key_format = 'auth:login_token:[%s]'
 access_token_key_format = 'auth:access_token:[%s]'
@@ -27,10 +22,7 @@ import uuid
 import rsa
 import redis
 import json
-<<<<<<< HEAD
 import time
-=======
->>>>>>> b03a69332f2663783278faaaba52d8747ee55bc9
 import base64
 
 from functools import wraps
@@ -189,13 +181,8 @@ def check_auth(authorization):
     except:
         return False
 
-<<<<<<< HEAD
     if nouce <= last_nounce:
         # the new nounce(timestamp) must bigger than last one
-=======
-    last_timestamp = int(store_user_info['nounce'])
-    if nounce <= last_timestamp:
->>>>>>> b03a69332f2663783278faaaba52d8747ee55bc9
         return False
     else:
         # update new nounce
@@ -203,14 +190,6 @@ def check_auth(authorization):
         store_access_token(access_token, store_user_info)
         return True
 
-<<<<<<< HEAD
-=======
-    store_user_info['nounce'] = nounce
-    store_access_token(access_token, store_user_info)
-
-    return True
-    
->>>>>>> b03a69332f2663783278faaaba52d8747ee55bc9
 def fail_auth():
     """
     return this when fail to auth
