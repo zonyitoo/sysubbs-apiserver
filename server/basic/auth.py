@@ -4,11 +4,16 @@ Helper classes and methods for authentication
 the login_token store in this format:
     "auth:login_token:[login_token_value]: {'client_publickey': '...'}"
 
+    login_token will be expired in 120 minutes
+
 the access_token store in this format:
     "auth:access_token:[access_token_value]: {
                     'client_publickey': '....',
                     'username': '...',
-                    'cookies':cookie}"
+                    'cookies':cookie,
+                    'nounce': 'timestamp'}"
+
+    access_token will be expired in 30 days
 """
 login_token_key_format = 'auth:login_token:[%s]'
 access_token_key_format = 'auth:access_token:[%s]'
@@ -18,6 +23,7 @@ import rsa
 import redis
 import json
 import time
+import base64
 
 from functools import wraps
 from flask import request, Response, make_response
@@ -56,7 +62,7 @@ redis_instance = RedisInstance.create_instance().r
 
 def store_access_token(access_token, token_info):
     """
-    store the access_token and its value, the access_token will
+    store the access_token and its value, the access_token will be
     expired in 30 days
 
     Args:
@@ -68,7 +74,7 @@ def store_access_token(access_token, token_info):
 def store_login_token(login_token, token_info):
     """
     store the login_token and its value
-    the login_token will expired in 120 minutes
+    the login_token will be expired in 120 minutes
 
     Args:
         login_token (str): the login_token
@@ -84,9 +90,12 @@ def __rsa128_encrypt_str(data, public_key):
         result += rsa.encrypt(cur, public_key)
         data_remain = data_remain[5:]
 
+    result = base64.encode(result)
+
     return result
 
 def __rsa128_decrypt_str(data, private_key):
+    data = base64.decode(data)
     data_remain = data
     result = ''
     while data_remain:
