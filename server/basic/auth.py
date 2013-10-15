@@ -60,6 +60,23 @@ class RedisInstance(object):
 
 redis_instance = RedisInstance.create_instance().r
 
+def get_client_publickey_from_header():
+    """
+    get the client public key from Authorization (no encrypt)
+
+    Returns:
+        client_publickey (dict)
+    """
+    client_publickey = request.authentication
+    if not client_publickey:
+        return None
+    else:
+        try:
+            client_publickey = json.loads(client_publickey)
+            return client_publickey
+        except:
+            return None
+
 def store_access_token(access_token, token_info):
     """
     store the access_token and its value, the access_token will be
@@ -81,6 +98,9 @@ def store_login_token(login_token, token_info):
         token_info (dict): the token value
     """
     redis_instance.setex(login_token_key_format % login_token, 7200, json.dumps(token_info))
+
+def get_login_token_value(login_token):
+    return redis_instance.get(login_token)
 
 def __rsa128_encrypt_str(data, public_key):
     data_remain = data
@@ -195,6 +215,12 @@ def fail_auth():
     return this when fail to auth
     """
     return make_response('Please login first', 401)
+
+def fail_login_token_expired():
+    """
+    return this when login_token expired
+    """
+    return make_response('login_token has expired', 401)
 
 def require_auth(func):
     """

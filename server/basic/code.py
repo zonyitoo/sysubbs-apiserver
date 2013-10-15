@@ -55,3 +55,6 @@ send_mail_fail = 603
 del_mail_fail = 604
 
 alumnus_year_wrong = 701
+
+
+request_data_format_error = 801

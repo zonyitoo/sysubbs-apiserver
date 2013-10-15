@@ -1,7 +1,9 @@
 import requests
 
 from server.basic import BasicUserProcessor
+from server.basic.formatter import fill_fail_format, fill_success_format
 from urls import *
+from userprocessor import CookieFormater
 
 class UserProcessor(BasicUserProcessor):
     """
@@ -24,12 +26,15 @@ class UserProcessor(BasicUserProcessor):
         Returns:
             the login token, that is the cookie, with this format:
             {'PHPSESSID': cookie_value}
-            and just return the cookie_value
+            and return in this format:
+            {'cookie': cookie_value}
         """
         r = requests.post(login_site, data={"userid": username, "passwd": password})
         resp = r.json()
         if resp['success']:
-            return r.cookies.get('PHPSESSID')
+            cookie = r.cookies.get('PHPSESSID')
+            cookie_formatter = CookieFormater(cookie)
+            return cookie_formatter.format()
         else:
             code = resp['code']
             return code

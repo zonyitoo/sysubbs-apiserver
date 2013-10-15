@@ -1,11 +1,15 @@
 from flask import Flask
 
+from server.handler import register_api_handlers
+
 def init_app():
     """
     this app is used for launch
     """
     app = Flask(__name__)
     app.config.from_pyfile('config.py')
+
+    register_api_handlers(app)
 
     return app
 

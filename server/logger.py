@@ -1,8 +1,29 @@
 import logging
 import logging.config
 
+from flask import request
+
 def init_logger():
     logging.config.fileConfig("logger.ini")
+
+def log_request(request, response, level='debug', username='', api_addr='/'):
+    extra_log_msg = {
+                'clientip': request.remote_addr,
+                'userid': username,
+                'request': request,
+                'response': response,
+                'apiname': api_addr
+            }
+    requestlog = logging.getLogger('requestlog')
+    log_func = getattr(requestlog, level)
+    if log_func:
+        log_func('handle %s' % api_addr, extra=extra_log_msg)
+
+def log_server(msg, level='debug'):
+    serverlog = logging.getLogger('serverlog')
+    log_func = getattr(serverlog, level)
+    if log_func:
+        log_func(msg)
 
 if __name__ == "__main__":
     print "Testing logger configuration"
@@ -27,8 +48,8 @@ if __name__ == "__main__":
     extra_log_msg = {
                 'clientip': '127.0.0.1',
                 'userid': '124567000111',
-                'request': json.dumps(fake_request_arg),
-                'response': json.dumps(fake_response),
+                'request': fake_request_arg,
+                'response': fake_response,
                 'apiname': '/user/login'
             }
 

@@ -1,5 +1,7 @@
 import json
 
+from flask.json import jsonify
+
 class BasicFormatter(object):
     """
     Basic Formatter classes for the data retrieve from the server
@@ -17,17 +19,17 @@ class BasicFormatter(object):
         """
         raise NotImplementedError()
 
-def fill_success_format(data_object):
+def fill_success_format(data_object={}):
     """
     return the success case api format:
     {'success': True, 'data': data_object}
     the data_object may be a json object or an array
     """
-    return json.dumps({'success': True, 'data': data_object})
+    return json.dumps(dict(success=True, data=data_object))
 
-def fill_fail_format(err_msg, err_code):
+def fill_fail_format(err_msg='', err_code=000):
     """
     return the fail case api format:
     {'success': True, 'errMsg': errMsg, 'errCode': errCode}
     """
-    return json.dumps({'success': False, 'errMsg': err_msg, 'errCode': err_code})
+    return json.dumps(dict(success=False, errMsg=err_msg, errCode=err_code))
