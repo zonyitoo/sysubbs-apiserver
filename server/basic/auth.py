@@ -60,20 +60,23 @@ class RedisInstance(object):
 
 redis_instance = RedisInstance.create_instance().r
 
-def get_client_publickey_from_header():
+def get_client_publickey_from_authorization():
     """
     get the client public key from Authorization (no encrypt)
 
     Returns:
         client_publickey (dict)
     """
-    client_publickey = request.authentication
+    client_publickey = request.headers.get('Authorization', None)
     if not client_publickey:
         return None
     else:
         try:
             client_publickey = json.loads(client_publickey)
-            return client_publickey
+            if 'client_publickey' in client_publickey:
+                return client_publickey.get('client_publickey')
+            else:
+                return None
         except:
             return None
 
@@ -86,7 +89,8 @@ def store_access_token(access_token, token_info):
         access_token (str): the access_token
         token_info (dict): the token value
     """
-    redis_instance.setex(access_token_key_format % access_token, 2592000, json.dumps(token_info))
+    redis_instance.setex(name=access_token_key_format % access_token,
+            time=2592000, value=json.dumps(token_info))
 
 def store_login_token(login_token, token_info):
     """
@@ -97,10 +101,11 @@ def store_login_token(login_token, token_info):
         login_token (str): the login_token
         token_info (dict): the token value
     """
-    redis_instance.setex(login_token_key_format % login_token, 7200, json.dumps(token_info))
+    redis_instance.setex(name=login_token_key_format % login_token,
+            time=7200, value=json.dumps(token_info))
 
 def get_login_token_value(login_token):
-    return redis_instance.get(login_token)
+    return redis_instance.get(login_token_key_format % login_token)
 
 def __rsa128_encrypt_str(data, public_key):
     data_remain = data
@@ -110,12 +115,12 @@ def __rsa128_encrypt_str(data, public_key):
         result += rsa.encrypt(cur, public_key)
         data_remain = data_remain[5:]
 
-    result = base64.urlsafe_b64encode(result)
+    result = base64.urlsafe_b64encode(str(result))
 
     return result
 
 def __rsa128_decrypt_str(data, private_key):
-    data = base64.urlsafe_b64decode(data)
+    data = base64.urlsafe_b64decode(str(data))
     data_remain = data
     result = ''
     while data_remain:
@@ -230,7 +235,7 @@ def require_auth(func):
     """
     @wraps(func)
     def decorated(*args, **kwargs):
-        auth = request.authentication
+        auth = request.headers.get('Authorization', None)
         if not check_auth(auth):
             return fail_auth()
         return func(*args, **kwargs)

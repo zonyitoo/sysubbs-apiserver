@@ -3,7 +3,7 @@ import requests
 from server.basic import BasicUserProcessor
 from server.basic.formatter import fill_fail_format, fill_success_format
 from urls import *
-from userprocessor import CookieFormater
+from userformatter import CookieFormater
 
 class UserProcessor(BasicUserProcessor):
     """

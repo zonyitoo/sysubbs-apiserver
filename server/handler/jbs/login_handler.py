@@ -31,9 +31,10 @@ class LoginHandler(Handler):
             }
         the public key is passed in pkcs#1 format
         """
-        client_publickey = get_client_publickey_from_header()
+        client_publickey = get_client_publickey_from_authorization()
         if not client_publickey:
             return make_response(fill_fail_format(err_code=request_data_format_error))
+        log_request(api_addr="deliver_server_publickey", request={'client_publickey': client_publickey})
         # generate a new login token
         login_token = gen_login_token()
         # store the new login token into redis
@@ -42,6 +43,7 @@ class LoginHandler(Handler):
         response_value = {'login_token': login_token, 'server_publickey': self.app.config['SERVER_PUBLIC_KEY_STR']}
         response = make_response(fill_success_format())
         response.headers['Authorization'] = json.dumps(response_value)
+        log_request(api_addr="deliver_server_publickey", response=response_value)
         return response
 
     def request_access_token(self):
@@ -58,28 +60,38 @@ class LoginHandler(Handler):
             }
         and encrypt with server's public key
         """
-        client_data = decrypt_client_data(request.authentication)
+        client_data = decrypt_client_data(request.headers.get('Authorization'))
         # check the data if valid
         if not client_data:
             return make_response(fill_fail_format(err_code=request_data_format_error))
+        client_data = json.loads(client_data)
         if not ('username' in client_data and
                 'password' in client_data and
                 'login_token' in client_data and
                 'nounce' in client_data):
+            log_server(api_addr="request_access_token", msg="client data not provide enough info")
             return make_response(fill_fail_format(err_code=request_data_format_error))
         # first check the login_token if still exist now
+        login_token = client_data['login_token']
         login_token_value = get_login_token_value(login_token)
         if not login_token_value:
             return fail_login_token_expired()
+        login_token_value = json.loads(login_token_value)
         # login user
+        username = client_data['username']
+        password = client_data['password']
         ret = self.user_processor.login(username, password)
         cookie = None
         if type(ret) is dict:
             cookie = ret.get('cookie')
+            log_server(api_addr="request_access_token", msg="user: %s login success" % username)
         else:
             # login fail
+            log_server(api_addr="request_access_token", msg="user: %s login fail, err_code: %s" %
+                    (username,str(ret)))
             return make_response(fill_fail_format(err_code=ret))
 
+        nounce = client_data['nounce']
         # get the client public key
         client_publickey = login_token_value.get('client_publickey')
         # generate a new access_token
@@ -88,6 +100,7 @@ class LoginHandler(Handler):
         store_access_token(access_token, {'client_publickey': client_publickey,
             'username': username, 'nounce': nounce, 'cookie': cookie})
         ret_val = json.dumps(dict(access_token=access_token, expire=int(time.time() + 2592000)))
+        log_request(api_addr="request_access_token", response=ret_val, request=client_data)
         # encrypt ret_val with client_publickey
         ret_val = encrypt_data_by_client_publickey(ret_val, client_publickey)
         response = make_response(fill_success_format())

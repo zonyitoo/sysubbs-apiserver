@@ -15,7 +15,8 @@ class BasicFormatter(object):
 
     def format(self):
         """
-        format the raw_data into the specif json object
+        format the raw_data into the specif json object,
+        it must return a dict object
         """
         raise NotImplementedError()
 
