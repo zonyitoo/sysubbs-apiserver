@@ -80,7 +80,7 @@ def get_client_publickey_from_authorization():
         except:
             return None
 
-def store_access_token(access_token, token_info):
+def store_access_token(access_token, token_info, expireat=int(time.time()) + 2592000):
     """
     store the access_token and its value, the access_token will be
     expired in 30 days
@@ -89,8 +89,9 @@ def store_access_token(access_token, token_info):
         access_token (str): the access_token
         token_info (dict): the token value
     """
-    redis_instance.setex(name=access_token_key_format % access_token,
-            time=2592000, value=json.dumps(token_info))
+    _key = access_token_key_format % access_token
+    redis_instance.set(name=_key, value=json.dumps(token_info))
+    redis_instance.expireat(_key, expireat)
 
 def store_login_token(login_token, token_info):
     """
@@ -103,6 +104,15 @@ def store_login_token(login_token, token_info):
     """
     redis_instance.setex(name=login_token_key_format % login_token,
             time=7200, value=json.dumps(token_info))
+
+def del_login_token(login_token):
+    """
+    delete the login_token
+
+    Args:
+        login_token (str): the login_token
+    """
+    redis_instance.delete(login_token_key_format % login_token)
 
 def get_login_token_value(login_token):
     return redis_instance.get(login_token_key_format % login_token)

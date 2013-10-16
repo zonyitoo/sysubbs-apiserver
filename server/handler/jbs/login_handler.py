@@ -40,7 +40,7 @@ class LoginHandler(Handler):
         # store the new login token into redis
         store_login_token(login_token, {'client_publickey': client_publickey})
         # return the new login_token to the client
-        response_value = {'login_token': login_token, 'server_publickey': self.app.config['SERVER_PUBLIC_KEY_STR']}
+        response_value = {'login_token': login_token, 'server_publickey': self.app.config['SERVER_PUBLIC_KEY_PKCS1']}
         response = make_response(fill_success_format())
         response.headers['Authorization'] = json.dumps(response_value)
         log_request(api_addr="deliver_server_publickey", response=response_value)
@@ -77,6 +77,7 @@ class LoginHandler(Handler):
         if not login_token_value:
             return fail_login_token_expired()
         login_token_value = json.loads(login_token_value)
+        del_login_token(login_token)
         # login user
         username = client_data['username']
         password = client_data['password']
@@ -97,9 +98,10 @@ class LoginHandler(Handler):
         # generate a new access_token
         access_token = gen_access_token()
         # store the new access_token
+        expireat = int(time.time()) + 2592000
         store_access_token(access_token, {'client_publickey': client_publickey,
-            'username': username, 'nounce': nounce, 'cookie': cookie})
-        ret_val = json.dumps(dict(access_token=access_token, expire=int(time.time() + 2592000)))
+            'username': username, 'nounce': nounce, 'cookie': cookie, 'expire': expireat}, expireat=expireat)
+        ret_val = json.dumps(dict(access_token=access_token, expire=expireat))
         log_request(api_addr="request_access_token", response=ret_val, request=client_data)
         # encrypt ret_val with client_publickey
         ret_val = encrypt_data_by_client_publickey(ret_val, client_publickey)
