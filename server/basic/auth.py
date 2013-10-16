@@ -216,13 +216,17 @@ def check_auth(authorization):
     except:
         return False
 
-    if nouce <= last_nounce:
+    if nounce <= last_nounce:
         # the new nounce(timestamp) must bigger than last one
         return False
     else:
         # update new nounce
         store_user_info['nounce'] = nounce
-        store_access_token(access_token, store_user_info)
+        try:
+            expireat = int(store_user_info['expire'])
+        except:
+            return False
+        store_access_token(access_token, store_user_info, expireat)
         return True
 
 def fail_auth():
