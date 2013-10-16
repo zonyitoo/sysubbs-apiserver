@@ -10,17 +10,23 @@ class Handler(object):
     it contains a flask.Blueprint object that makes
     Handler act as a submodule of Flask app
     """
-    def __init__(self, name, url_prefix, app):
+
+    """
+    each subclass of Handler must have this two properties:
+    __handler_name__ (str): the name of this handler
+    __url_prefix__ (str): the url_prefix used in register blueprint
+    """
+    __handler_name__ = 'handler'
+    __url_prefix__ = '/'
+
+    def __init__(self, app):
         """
         init Handler with a prefix
 
         Args:
-            url_prefix (str): the url prefix used in register blueprint
-            name (str): the name of this handler
             app (flask.Flask): the flask appliction object, used when register blueprint
         """
-        self.blueprint = Blueprint(name, __name__)
-        self.url_prefix = url_prefix
+        self.blueprint = Blueprint(self.__handler_name__, __name__)
         self.app = app
 
     def register_handler(self):
@@ -32,7 +38,7 @@ class Handler(object):
             registered for
         """
         self.add_all_view_functions()
-        self.app.register_blueprint(self.blueprint, url_prefix=self.url_prefix)
+        self.app.register_blueprint(self.blueprint, url_prefix=self.__url_prefix__)
 
     def add_view_func(self, rule, methods, func):
         """
@@ -43,7 +49,7 @@ class Handler(object):
             methods (list or tuple): the http methods
             func (function): the function
         """
-        self.blueprint.add_url_rule(rule=rule, view_func=func)
+        self.blueprint.add_url_rule(rule=rule, view_func=func, methods=list(methods))
 
     def add_all_view_functions(self):
         """

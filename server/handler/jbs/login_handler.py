@@ -12,13 +12,16 @@ from server.processor import UserProcessor
 from server.logger import log_server, log_request
 
 class LoginHandler(Handler):
+    __handler_name__ = 'login'
+    __url_prefix__ = '/login'
+
     def __init__(self, *args, **kwargs):
         super(LoginHandler, self).__init__(*args, **kwargs)
         self.user_processor = UserProcessor(self.app)
 
     def add_all_view_functions(self):
         self.add_view_func(rule="/deliver_server_publickey/", methods=('GET', ), func=self.deliver_server_publickey)
-        self.add_view_func(rule="/request_access_token/", methods=('GET'), func=self.request_access_token)
+        self.add_view_func(rule="/request_access_token/", methods=('GET', ), func=self.request_access_token)
 
     def deliver_server_publickey(self):
         """
