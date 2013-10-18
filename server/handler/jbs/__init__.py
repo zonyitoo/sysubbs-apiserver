@@ -3,5 +3,5 @@ __description__ = """
                   """
 
 # must import all jsb api Handlers here
-from login_handler import LoginHandler
+from auth_handler import AuthHandler
 

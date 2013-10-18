@@ -11,12 +11,12 @@ from server.basic.formatter import fill_fail_format, fill_success_format
 from server.processor import UserProcessor
 from server.logger import log_server, log_request
 
-class LoginHandler(Handler):
-    __handler_name__ = 'login'
-    __url_prefix__ = '/login'
+class AuthHandler(Handler):
+    __handler_name__ = 'auth'
+    __url_prefix__ = '/auth'
 
     def __init__(self, *args, **kwargs):
-        super(LoginHandler, self).__init__(*args, **kwargs)
+        super(AuthHandler, self).__init__(*args, **kwargs)
         self.user_processor = UserProcessor(self.app)
 
     def add_all_view_functions(self):

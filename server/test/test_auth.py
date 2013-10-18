@@ -36,7 +36,7 @@ def __rsa128_decrypt_str(data, private_key):
 
 def get_server_publickey():
     headers = {'Authorization': json.dumps({'client_publickey': client_publickey_str})}
-    resp = requests.get(HOST + "/login" + "/deliver_server_publickey/", headers=headers)
+    resp = requests.get(HOST + "/auth" + "/deliver_server_publickey/", headers=headers)
 
     authorization = resp.headers.get('Authorization')
     if authorization:
@@ -54,7 +54,7 @@ def get_access_token(server_publickey, login_token):
     data = __rsa128_encrypt_str(data, rsa.PublicKey.load_pkcs1(server_publickey))
     headers = {'Authorization': data}
 
-    resp = requests.get(HOST + "/login" + "/request_access_token/", headers=headers)
+    resp = requests.get(HOST + "/auth" + "/request_access_token/", headers=headers)
 
     authorization = resp.headers.get('Authorization')
     if authorization:
