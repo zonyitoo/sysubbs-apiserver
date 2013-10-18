@@ -22,6 +22,7 @@ class AuthHandler(Handler):
     def add_all_view_functions(self):
         self.add_view_func(rule="/deliver_server_publickey/", methods=('GET', ), func=self.deliver_server_publickey)
         self.add_view_func(rule="/request_access_token/", methods=('GET', ), func=self.request_access_token)
+        self.add_view_func(rule="/logout/", methods=('GET', ), func=self.logout)
 
     def deliver_server_publickey(self):
         """
@@ -63,7 +64,7 @@ class AuthHandler(Handler):
             }
         and encrypt with server's public key
         """
-        client_data = decrypt_client_data(request.headers.get('Authorization'))
+        client_data = decrypt_client_data(request.headers.get('Authorization', None))
         # check the data if valid
         if not client_data:
             return make_response(fill_fail_format(err_code=request_data_format_error))
@@ -92,7 +93,7 @@ class AuthHandler(Handler):
         else:
             # login fail
             log_server(api_addr="request_access_token", msg="user: %s login fail, err_code: %s" %
-                    (username,str(ret)))
+                    (username, ret))
             return make_response(fill_fail_format(err_code=ret))
 
         nounce = client_data['nounce']
@@ -111,3 +112,38 @@ class AuthHandler(Handler):
         response = make_response(fill_success_format())
         response.headers['Authorization'] = ret_val
         return response
+
+    @require_auth
+    def logout(self):
+        """
+        logout user
+        methods: GET
+        url: '/logout/'
+        post data format (in Authorization header):
+            {
+                "access_token": "..."
+                "nounce": "nounce"
+            }
+        and encrypt with server's public key
+        """
+        client_data = decrypt_client_data(request.headers.get('Authorization', None))
+        client_data = json.loads(client_data)
+        access_token = client_data['access_token']
+        access_token_value = get_access_token_value(access_token)
+        access_token_value = json.loads(access_token_value)
+        # get the cookie
+        cookie = access_token_value.get('cookie', None)
+        log_server(api_addr="logout", msg="logout, cookie: %s" % cookie)
+        if cookie:
+            logout_ret = self.user_processor.logout(cookie)
+            if logout_ret is True:
+                del_access_token(access_token)
+                log_server(api_addr="logout", msg="logout success, del access_token: %s" % access_token)
+                return make_response(fill_success_format())
+            else:
+                log_server(api_addr="logout", msg="logout fail, err_code: %s" % err_code)
+                return make_response(fill_fail_format(err_code=ret))
+        else:
+            del_access_token(access_token)
+            log_server(api_addr="logout", msg="logout success, del access_token: %s" % access_token)
+            return make_response(fill_success_format())

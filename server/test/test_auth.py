@@ -65,6 +65,17 @@ def get_access_token(server_publickey, login_token):
 
         return access_token, expire
 
+def logout(access_token):
+    data = {'access_token': access_token, "nounce": int(time.time() + 1000)}
+    data = json.dumps(data)
+
+    data = __rsa128_encrypt_str(data, rsa.PublicKey.load_pkcs1(server_publickey))
+    headers = {'Authorization': data}
+
+    resp = requests.get(HOST + "/auth" + "/logout/", headers=headers)
+
+    return resp.status_code, resp.text
+
 
 if __name__ == '__main__':
     server_publickey, login_token = get_server_publickey()
@@ -76,3 +87,5 @@ if __name__ == '__main__':
     access_token: %s\n
     expire: %s
     """ % (server_publickey, login_token, access_token, expire)
+
+    print "logout, resp: %s" % str(logout(access_token))

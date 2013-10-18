@@ -1,5 +1,7 @@
 import requests
 
+from requests.utils import cookiejar_from_dict
+
 from server.basic import BasicUserProcessor
 from server.basic.formatter import fill_fail_format, fill_success_format
 from urls import *
@@ -39,16 +41,17 @@ class UserProcessor(BasicUserProcessor):
             code = resp['code']
             return code
 
-    def logout(self, cookie):
+    def logout(self, cookie_val):
         """
         logout user
         Args:
-            cookie (str): that is, the login token
+            cookie_val (str): the cookie value, will reassembly as 'PHPSESSID:cookie_val'
         Returns:
             True, if logout success or
             the error code if logout fail
         """
-        r = requests.post(logout_site, cookies=cookies)
+        cookie = cookiejar_from_dict({'PHPSESSID': cookie_val})
+        r = requests.post(logout_site, cookies=cookie)
         resp = r.json()
         if resp['success']:
             return True

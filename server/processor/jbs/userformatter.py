@@ -9,7 +9,3 @@ class CookieFormater(BasicFormatter):
     """
     def format(self):
         return dict(cookie=self.raw_data)
-
-class UserFormatter(BasicFormatter):
-    def format(self, server_resp):
-        pass

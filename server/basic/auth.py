@@ -114,8 +114,19 @@ def del_login_token(login_token):
     """
     redis_instance.delete(login_token_key_format % login_token)
 
+def del_access_token(access_token):
+    """
+    delete the access_token
+
+    Args:
+        access_token (str): the access_token
+    """
+
 def get_login_token_value(login_token):
     return redis_instance.get(login_token_key_format % login_token)
+
+def get_access_token_value(access_token):
+    return redis_instance.get(access_token_key_format % access_token)
 
 def __rsa128_encrypt_str(data, public_key):
     data_remain = data
@@ -208,6 +219,7 @@ def check_auth(authorization):
     store_user_info = redis_instance.get(access_token_key_format % access_token)
     if not store_user_info:
         return False
+    store_user_info = json.loads(store_user_info)
     last_nounce = store_user_info.get('nounce')
     if not last_nounce:
         return False
