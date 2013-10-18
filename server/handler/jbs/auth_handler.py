@@ -126,13 +126,8 @@ class AuthHandler(Handler):
             }
         and encrypt with server's public key
         """
-        client_data = decrypt_client_data(request.headers.get('Authorization', None))
-        client_data = json.loads(client_data)
-        access_token = client_data['access_token']
-        access_token_value = get_access_token_value(access_token)
-        access_token_value = json.loads(access_token_value)
-        # get the cookie
-        cookie = access_token_value.get('cookie', None)
+        access_token, cookie = self.get_logout_info_from_authorization()
+        # get the cookie and access_token
         log_server(api_addr="logout", msg="logout, cookie: %s" % cookie)
         if cookie:
             logout_ret = self.user_processor.logout(cookie)
@@ -147,3 +142,12 @@ class AuthHandler(Handler):
             del_access_token(access_token)
             log_server(api_addr="logout", msg="logout success, del access_token: %s" % access_token)
             return make_response(fill_success_format())
+
+    def get_logout_info_from_authorization(self):
+        user_info = decrypt_client_data(request.headers.get('Authorization', None))
+        print user_info
+        user_info = json.loads(user_info)
+        access_token = user_info.get('access_token')
+        cookie = get_cookie_from_access_token(access_token)
+
+        return access_token, cookie

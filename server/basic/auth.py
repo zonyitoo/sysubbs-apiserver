@@ -25,6 +25,7 @@ import json
 import time
 import base64
 
+from requests.utils import cookiejar_from_dict
 from functools import wraps
 from flask import request, Response, make_response
 from server.app import init_util_app
@@ -128,6 +129,21 @@ def get_login_token_value(login_token):
 def get_access_token_value(access_token):
     return redis_instance.get(access_token_key_format % access_token)
 
+def get_cookie_from_access_token(access_token):
+    access_token_val = redis_instance.get(access_token_key_format % access_token)
+    access_token_val = json.loads(access_token_val)
+    cookie = access_token_val.get('cookie', None)
+    if cookie:
+        return cookiejar_from_dict({'PHPSESSID': cookie})
+    else:
+        return None
+
+def get_cookie_from_authorization(authorization):
+    client_data = decrypt_client_data(request.headers.get('Authorization', None))
+    client_data = json.loads(client_data)
+    access_token = client_data['access_token']
+    return get_cookie_from_access_token(access_token)
+
 def __rsa128_encrypt_str(data, public_key):
     data_remain = data
     result = ''
@@ -188,7 +204,7 @@ def get_access_token_and_nounce(authorization):
     Returns:
         the decrypted access_token and nounce,
         in this format:
-            {'access_token': access_token, 'nounce': nounce}
+            {'access_token': access_token, 'nounce': nounce, 'cookie': cookie}
     """
     #decoded_authorization = base64.urlsafe_b64decode(authorization)
     client_decrypeted_data = decrypt_client_data(authorization)

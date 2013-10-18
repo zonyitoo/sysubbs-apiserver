@@ -41,7 +41,7 @@ class UserProcessor(BasicUserProcessor):
             code = resp['code']
             return code
 
-    def logout(self, cookie_val):
+    def logout(self, cookie):
         """
         logout user
         Args:
@@ -50,7 +50,7 @@ class UserProcessor(BasicUserProcessor):
             True, if logout success or
             the error code if logout fail
         """
-        cookie = cookiejar_from_dict({'PHPSESSID': cookie_val})
+        #cookie = cookiejar_from_dict({'PHPSESSID': cookie_val})
         r = requests.post(logout_site, cookies=cookie)
         resp = r.json()
         if resp['success']:

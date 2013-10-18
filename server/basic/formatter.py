@@ -26,11 +26,17 @@ def fill_success_format(data_object={}):
     {'success': True, 'data': data_object}
     the data_object may be a json object or an array
     """
-    return json.dumps(dict(success=True, data=data_object))
+    if data_object:
+        return json.dumps(dict(success=True, data=data_object))
+    else:
+        return json.dumps(dict(success=True))
 
 def fill_fail_format(err_msg='', err_code=000):
     """
     return the fail case api format:
     {'success': True, 'errMsg': errMsg, 'errCode': errCode}
     """
-    return json.dumps(dict(success=False, errMsg=err_msg, errCode=err_code))
+    if err_msg:
+        return json.dumps(dict(success=False, errMsg=err_msg, errCode=err_code))
+    else:
+        return json.dumps(dict(success=False, errCode=err_code))
