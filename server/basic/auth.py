@@ -229,7 +229,7 @@ def check_auth(authorization):
     if not nounce:
         return False
     try:
-        nounce = int(nounce)
+        nounce = float(nounce)
     except:
         return False
     store_user_info = redis_instance.get(access_token_key_format % access_token)
@@ -240,7 +240,7 @@ def check_auth(authorization):
     if not last_nounce:
         return False
     try:
-        last_nounce = int(last_nounce)
+        last_nounce = float(last_nounce)
     except:
         return False
 
