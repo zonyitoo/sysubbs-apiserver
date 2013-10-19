@@ -14,8 +14,6 @@ def create_all_handlers(app):
     for cls in jbsHandler.__subclasses__():
         h = cls(app)
         handlers.append(h)
-    #login_handler = LoginHandler('login', '/login', app)
-    #handlers.append(login_handler)
 
     return handlers
 

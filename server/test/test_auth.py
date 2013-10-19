@@ -9,7 +9,7 @@ client_privatekey = rsa.PrivateKey.load_pkcs1(u'-----BEGIN RSA PRIVATE KEY-----\
 
 client_publickey_str = u'-----BEGIN RSA PUBLIC KEY-----\nMBgCEQCzxvEyRJXuwye7pJ/CO6yDAgMBAAE=\n-----END RSA PUBLIC KEY-----\n'
 
-HOST = "http://127.0.0.1:5000"
+HOST = "http://127.0.0.1:5050"
 
 def __rsa128_encrypt_str(data, public_key):
     data_remain = data

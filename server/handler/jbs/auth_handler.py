@@ -135,8 +135,8 @@ class AuthHandler(jbsHandler):
                 log_server(api_addr="logout", msg="logout success, del access_token: %s" % access_token)
                 return make_response(fill_success_format())
             else:
-                log_server(api_addr="logout", msg="logout fail, err_code: %s" % err_code)
-                return make_response(fill_fail_format(err_code=ret))
+                log_server(api_addr="logout", msg="logout fail, err_code: %s" % logout_ret)
+                return make_response(fill_fail_format(err_code=logout_ret))
         else:
             del_access_token(access_token)
             log_server(api_addr="logout", msg="logout success, del access_token: %s" % access_token)

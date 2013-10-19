@@ -3,6 +3,14 @@ from flask import request
 from server.basic.handler import Handler
 from server.basic.auth import get_cookie_from_authorization
 
+exclude_check_cookie_api = ['request_access_token', 'deliver_server_publickey']
+
+def is_in_exclude_url():
+    for url in exclude_check_cookie_api:
+        if url in request.url:
+            return True
+    return False
+
 class jbsHandlerMixin(object):
     """
     jbsHandlerMixin, add cookie support for handler
@@ -12,9 +20,8 @@ class jbsHandlerMixin(object):
         """
         set the cookie value for processor before request
         """
-        if 'request_access_token' not in request.url and 'deliver_server_publickey' not in request.url:
+        if not is_in_exclude_url():
             cookie = get_cookie_from_authorization()
-            print "cookie is " + str(cookie)
             if cookie and hasattr(self.__processor__, 'set_cookie'):
                 self.__processor__.set_cookie(cookie)
 

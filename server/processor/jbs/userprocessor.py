@@ -9,6 +9,7 @@ from urls import *
 from userformatter import CookieFormater, FriendsListFormatter
 from jbsprocess import jbsProcessorMixin
 
+
 class UserProcessor(BasicUserProcessor, jbsProcessorMixin):
     """
     UserProcessor for jsbbs API
