@@ -3,11 +3,13 @@ import requests
 from requests.utils import cookiejar_from_dict
 
 from server.basic import BasicUserProcessor
+from server.basic.code import no_login
 from server.basic.formatter import fill_fail_format, fill_success_format
 from urls import *
-from userformatter import CookieFormater
+from userformatter import CookieFormater, FriendsListFormatter
+from jbsprocess import jbsProcessorMixin
 
-class UserProcessor(BasicUserProcessor):
+class UserProcessor(BasicUserProcessor, jbsProcessorMixin):
     """
     UserProcessor for jsbbs API
     """
@@ -41,17 +43,15 @@ class UserProcessor(BasicUserProcessor):
             code = resp['code']
             return code
 
-    def logout(self, cookie):
+    def logout(self):
         """
         logout user
-        Args:
-            cookie_val (str): the cookie value, will reassembly as 'PHPSESSID:cookie_val'
         Returns:
             True, if logout success or
             the error code if logout fail
         """
         #cookie = cookiejar_from_dict({'PHPSESSID': cookie_val})
-        r = requests.post(logout_site, cookies=cookie)
+        r = requests.post(logout_site, cookies=self.cookie)
         resp = r.json()
         if resp['success']:
             return True
@@ -60,12 +60,41 @@ class UserProcessor(BasicUserProcessor):
             return code
 
     def get_friends(self):
-        pass
+        """
+        get friends list
 
-    def add_friend(self):
-        pass
+        Returns:
+            the friends list (dict)
+            or the error code if fail
+        """
+        r = requests.get(get_friends_site, cookies=self.cookie)
+        resp = r.json()
+        if resp['success']:
+            data = resp['data']
+            formater = FriendsListFormatter(data)
+            return formater.format()
+        else:
+            return resp['code']
 
-    def del_friend(self):
+    def add_friend(self, username, alias):
+        """
+        add a new friend
+
+        Args:
+            username (str): the new username
+            alias (str): the alias of your new friend
+        Returns:
+            True, if add success
+            err_code, if add fail
+        """
+        r = requests.post(add_friend_site, data={'id': username, 'exp': alias}, cookies=self.cookie)
+        resp = r.json()
+        if resp['success']:
+            return True
+        else:
+            return resp['code']
+
+    def del_friend(self, username):
         pass
 
     def get_fav_boards(self):

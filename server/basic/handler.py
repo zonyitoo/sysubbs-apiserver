@@ -15,9 +15,11 @@ class Handler(object):
     each subclass of Handler must have this two properties:
     __handler_name__ (str): the name of this handler
     __url_prefix__ (str): the url_prefix used in register blueprint
+    __processor__ (Processor): the processor for this Handler
     """
     __handler_name__ = 'handler'
     __url_prefix__ = '/'
+    __processor__ = None
 
     def __init__(self, app):
         """

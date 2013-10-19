@@ -144,25 +144,20 @@ if __name__ == '__main__':
     cookie = login_data['cookie']
     print 'login, \n cookie: %s, \n response: %s ' % (login_data['cookie'], login_data['data'])
 
-    logout_data = logout(cookie)
-    print 'logout, response: %s' % logout_data
+    #logout_data = logout(cookie)
+    #print 'logout, response: %s' % logout_data
 
-    #get_friends_data = get_friends(cookie)
-    #print "get_friends, response: %s" % get_friends_data
+    get_friends_data = get_friends(cookie)
+    print "get_friends, response: %s" % get_friends_data
 
-    #del_friend_data = del_friend(cookie, 'zhongyut')
-    #print "del_friend, response: %s" % del_friend_data
+    del_friend_data = del_friend(cookie, 'zhongyut')
+    print "del_friend, response: %s" % del_friend_data
 
-    #add_friend_data = add_friend(cookie, 'zhongyut', '')
-    #print "add_friend, reponse: %s " % add_friend_data
+    add_friend_data = add_friend(cookie, 'zhongyut', 'mimi')
+    print "add_friend, reponse: %s " % add_friend_data
 
-<<<<<<< Updated upstream
     ##get_fav_boards_data = get_fav_boards(cookie)
     ##print "get_fav_boards, response: %s" % get_fav_boards_data
-=======
-    get_fav_boards_data = get_fav_boards(cookie)
-    print "get_fav_boards, response: %s" % get_fav_boards_data
->>>>>>> Stashed changes
 
     #del_fav_board_data = del_fav_board(cookie, 'Lecture')
     #print "del_fav_board, response: %s" % del_fav_board_data

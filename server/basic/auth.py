@@ -138,11 +138,15 @@ def get_cookie_from_access_token(access_token):
     else:
         return None
 
-def get_cookie_from_authorization(authorization):
-    client_data = decrypt_client_data(request.headers.get('Authorization', None))
-    client_data = json.loads(client_data)
-    access_token = client_data['access_token']
-    return get_cookie_from_access_token(access_token)
+def get_cookie_from_authorization():
+    authorization = request.headers.get('Authorization', None)
+    if authorization:
+        client_data = decrypt_client_data(authorization)
+        client_data = json.loads(client_data)
+        access_token = client_data['access_token']
+        return get_cookie_from_access_token(access_token)
+    else:
+        return None
 
 def __rsa128_encrypt_str(data, public_key):
     data_remain = data

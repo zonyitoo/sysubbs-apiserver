@@ -12,12 +12,8 @@ class Processor(object):
     if request fail, it only return the error code,
     and pass to Handler the process this error code
     """
-    def __init__(self, app):
-        """
-        pass app to each Processor class,
-        make some awesome
-        """
-        self.app = app
+    def __init__(self):
+        pass
 
 class BasicSessionProcessor(Processor):
     """

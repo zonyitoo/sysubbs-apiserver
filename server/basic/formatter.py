@@ -40,3 +40,29 @@ def fill_fail_format(err_msg='', err_code=000):
         return json.dumps(dict(success=False, errMsg=err_msg, errCode=err_code))
     else:
         return json.dumps(dict(success=False, errCode=err_code))
+
+"""
+API objects specifications and helper methods
+"""
+"""
+friends api
+"""
+def fill_friend_object(username, alias):
+    """
+    Friend object:
+        {'username': username, 'alias': alias}
+
+    Returns:
+        friend_object (dict)
+    """
+    return dict(username=username, alias=alias)
+
+def fill_friends_list_object(friends_list):
+    """
+    in get_friends api
+    Friends list object:
+        {'friends': [friend_object, ...]}
+    Returns:
+        friends_list_object (dict)
+    """
+    return dict(friends=friends_list)

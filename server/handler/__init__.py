@@ -5,12 +5,13 @@ __description__ = """
 from server.logger import init_logger
 init_logger()
 
-from server.basic.handler import Handler
 
 def create_all_handlers(app):
+    #from server.basic.handler import Handler
     from jbs import *
+    from jbs.jbs_handler import jbsHandler
     handlers = []
-    for cls in Handler.__subclasses__():
+    for cls in jbsHandler.__subclasses__():
         h = cls(app)
         handlers.append(h)
     #login_handler = LoginHandler('login', '/login', app)

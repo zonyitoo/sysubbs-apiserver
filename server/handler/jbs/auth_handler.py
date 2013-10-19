@@ -10,14 +10,12 @@ from server.basic.code import *
 from server.basic.formatter import fill_fail_format, fill_success_format
 from server.processor import UserProcessor
 from server.logger import log_server, log_request
+from jbs_handler import jbsHandler
 
-class AuthHandler(Handler):
+class AuthHandler(jbsHandler):
     __handler_name__ = 'auth'
     __url_prefix__ = '/auth'
-
-    def __init__(self, *args, **kwargs):
-        super(AuthHandler, self).__init__(*args, **kwargs)
-        self.user_processor = UserProcessor(self.app)
+    __processor__ = UserProcessor()
 
     def add_all_view_functions(self):
         self.add_view_func(rule="/deliver_server_publickey/", methods=('GET', ), func=self.deliver_server_publickey)
@@ -85,7 +83,7 @@ class AuthHandler(Handler):
         # login user
         username = client_data['username']
         password = client_data['password']
-        ret = self.user_processor.login(username, password)
+        ret = self.__processor__.login(username, password)
         cookie = None
         if type(ret) is dict:
             cookie = ret.get('cookie')
@@ -127,10 +125,11 @@ class AuthHandler(Handler):
         and encrypt with server's public key
         """
         access_token, cookie = self.get_logout_info_from_authorization()
+        self.__processor__.set_cookie(cookie)
         # get the cookie and access_token
         log_server(api_addr="logout", msg="logout, cookie: %s" % cookie)
         if cookie:
-            logout_ret = self.user_processor.logout(cookie)
+            logout_ret = self.__processor__.logout()
             if logout_ret is True:
                 del_access_token(access_token)
                 log_server(api_addr="logout", msg="logout success, del access_token: %s" % access_token)
