@@ -124,11 +124,10 @@ class AuthHandler(jbsHandler):
             }
         and encrypt with server's public key
         """
-        access_token, cookie = self.get_logout_info_from_authorization()
-        self.__processor__.set_cookie(cookie)
         # get the cookie and access_token
-        log_server(api_addr="logout", msg="logout, cookie: %s" % cookie)
-        if cookie:
+        access_token = self.get_logout_info_from_authorization()
+        log_server(api_addr="logout", msg="logout, cookie: %s" % self.cookie)
+        if self.cookie:
             logout_ret = self.__processor__.logout()
             if logout_ret is True:
                 del_access_token(access_token)
@@ -144,9 +143,8 @@ class AuthHandler(jbsHandler):
 
     def get_logout_info_from_authorization(self):
         user_info = decrypt_client_data(request.headers.get('Authorization', None))
-        print user_info
         user_info = json.loads(user_info)
         access_token = user_info.get('access_token')
-        cookie = get_cookie_from_access_token(access_token)
+        #cookie = get_cookie_from_access_token(access_token)
 
-        return access_token, cookie
+        return access_token

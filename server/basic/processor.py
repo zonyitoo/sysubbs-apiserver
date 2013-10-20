@@ -8,7 +8,7 @@ class Processor(object):
     ~~~~
     Basic Processor class
     Processor is used to retrieve data from the server
-    and format it in a correctly api format(only contain 'data' part)
+    and format it in a correctly api format(only contain 'data' part and is a dict object)
     if request fail, it only return the error code,
     and pass to Handler the process this error code
     """
@@ -92,7 +92,7 @@ class BasicUserProcessor(Processor):
         """
         raise NotImplementedError()
 
-    def update_user_avatar():
+    def update_user_avatar(self):
         """
         update user's avatar
         """

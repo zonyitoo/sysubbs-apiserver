@@ -1,4 +1,5 @@
 import requests
+import StringIO
 
 from requests.utils import cookiejar_from_dict
 
@@ -6,7 +7,7 @@ from server.basic import BasicUserProcessor
 from server.basic.code import no_login
 from server.basic.formatter import fill_fail_format, fill_success_format
 from urls import *
-from userformatter import CookieFormater, FriendsListFormatter
+from userformatter import CookieFormater, FriendsListFormatter, UserFavBoardListFormatter, UserInfoFormatter
 from jbsprocess import jbsProcessorMixin
 
 
@@ -96,22 +97,151 @@ class UserProcessor(BasicUserProcessor, jbsProcessorMixin):
             return resp['code']
 
     def del_friend(self, username):
-        pass
+        """
+        delete a friend
+
+        Args:
+            username (str): your friend's name
+
+        Returns:
+            True, if delete success,
+            err_code, if delete fail
+        """
+        r = requests.post(del_friend_site, data={'userid': username}, cookies=self.cookie)
+        resp = r.json()
+        if resp['success']:
+            return True
+        else:
+            return resp['code']
 
     def get_fav_boards(self):
-        pass
+        """
+        get user fav boards
 
-    def add_fav_board(self):
-        pass
+        Returns:
+            the board list object:
+            {"boards": ['board object', ...]}
+        """
+        r = requests.get(get_fav_boards_site, cookies=self.cookie)
+        resp = r.json()
+        if resp['success']:
+            data = resp['data']
+            formatter = UserFavBoardListFormatter(data)
+            return formatter.format()
+        else:
+            return resp['code']
 
-    def del_fav_board(self):
-        pass
+    def add_fav_board(self, boardname):
+        """
+        add a new favorite board
 
-    def get_user_info(self):
-        pass
+        Args:
+            boardname (str): the board name
 
-    def update_user_info(self):
-        pass
+        Returns:
+            True, if add success or
+            err_code if fail
+        """
+        r = requests.post(add_fav_board_site, cookies=self.cookie, data={'boardname': boardname})
+        if resp['success']:
+            return True
+        else:
+            return resp['code']
 
-    def get_user_avatar(self):
-        pass
+    def del_fav_board(self, boardname):
+        """
+        delete a favorite board
+
+        Args:
+            boardname (str): the boardname
+
+        Returns:
+            True, if delete success or
+            err_code if fail
+        """
+        r = requests.post(del_fav_board_site, cookies=self.cookie, data={'boardname': boardname})
+        if resp['success']:
+            return True
+        else:
+            return resp['code']
+
+    def get_user_info(self, username):
+        """
+        get the user info for specfic username
+
+        Args:
+            username (str): username
+
+        Returns:
+            the user info object
+        """
+        r = requests.get(query_other_user_site, params={'userid': username})
+        if resp['success']:
+            data = resp['data']
+            formatter = UserInfoFormatter(data)
+            return formatter.format()
+        else:
+            return resp['code']
+
+    def update_user_info(self, nickname=None, gender=None, description=None, signature=None):
+        """
+        update user info (not include avatar)
+
+        Args:
+            nickname (str): the new nickname
+            gender (str): the new gender (M or F)
+            description (str): the new description
+            signature (str): the new signature
+
+        Returns:
+            True, if update success or
+            err_code if update fail
+        """
+        data = dict()
+        if nickname:
+            data['username'] = nickname
+        if gender:
+            data['gender'] = gender
+        if description:
+            data['plan'] = description
+        if signature:
+            data['signature'] = signature
+        r = requests.post(update_user_info_site, cookies=self.cookie, data=data)
+        resp = r.json()
+        if resp['success']:
+            return True
+        else:
+            return resp['code']
+
+    def update_user_avatar(self, avatar_binary):
+        """
+        update user's avatar
+
+        Args:
+            avatar_binary (str): the avatar_binary str
+
+        Returns:
+            True, if update success or
+            err_code if update fail
+        """
+        avatar_file = StringIO.StringIO(binary_content)
+        files = {'avatar': avatar_file}
+        r = requests.post(cookies=self.cookie, url=update_user_info_site, files=files)
+        resp = r.json()
+        if resp['success']:
+            return True
+        else:
+            return resp['code']
+
+    def get_user_avatar(self, username):
+        """
+        get user's avatar
+
+        Args:
+            username (str): the username
+
+        Returns:
+            the avatar binary content
+        """
+        r = requests.get(url=get_user_avatar_site % username)
+        return r.content
