@@ -11,33 +11,33 @@ def create_all_handlers(app):
     #from server.basic.handler import Handler
     import kaptan
     url_config = kaptan.Kaptan()
-    url_config.import_config('urls.yaml') 
+    url_config.import_config('handler/urls.yaml') 
 
     import os
     handlers = []
-    for cur, dire, files in os.walk('.'):
-        if cur == '.': continue
+    for cur, dire, files in os.walk('handler'):
+        if cur == 'handler': continue
 
         handler_config = kaptan.Kaptan()
         if 'handlers.yaml' in files:
-            handler_config.import_config(cur + 'handlers.yaml')
+            handler_config.import_config('%s/%s' % (cur, 'handlers.yaml'))
         elif 'handlers.ini' in files:
-            handler_config.import_config(cur + 'handlers.ini')
+            handler_config.import_config('%s/%s' % (cur, 'handlers.ini'))
         elif 'handlers.json' in files:
-            handler_config.import_config(cur + 'handlers.json')
+            handler_config.import_config('%s/%s' % (cur, 'handlers.json'))
         elif 'handlers.conf' in files:
-            handler_config.import_config(cur + 'handlers.conf')
+            handler_config.import_config('%s/%s' % (cur, 'handlers.conf'))
         else:
             raise ValueError("Cannot find handlers configuration file in %s" % cur)
 
         for hname, vals in handler_config.get().items():
-            exec('import %s' % hname)
+            exec('import jbs') #% hname)
             h = eval('%s(app)' % hname)
             h.__url_prefix__ = url_config.get('%s.url_prefix' % vals['role'])
             if vals.has_key('views'):
-                for view in vals['views']:
-                    h.add_url_rule(url_config.get('%s.%s.url' % (vals['role'], view['role'])), 
-                            eval('h.%s' % view['name']), eval(view['methods']))
+                for vname, vargs in vals['views'].items():
+                    h.add_view_func(rule=url_config.get('%s.%s.url' % (vals['role'], vargs['role'])), 
+                            func=eval('h.%s' % vname), methods=eval(vargs['methods']))
             handlers.append(h)
 
     return handlers

@@ -18,9 +18,10 @@ class AuthHandler(jbsHandler):
     __processor__ = UserProcessor()
 
     def add_all_view_functions(self):
-        self.add_view_func(rule="/deliver_server_publickey/", methods=('GET', ), func=self.deliver_server_publickey)
-        self.add_view_func(rule="/request_access_token/", methods=('GET', ), func=self.request_access_token)
-        self.add_view_func(rule="/logout/", methods=('GET', ), func=self.logout)
+        #self.add_view_func(rule="/deliver_server_publickey/", methods=('GET', ), func=self.deliver_server_publickey)
+        #self.add_view_func(rule="/request_access_token/", methods=('GET', ), func=self.request_access_token)
+        #self.add_view_func(rule="/logout/", methods=('GET', ), func=self.logout)
+        pass
 
     def deliver_server_publickey(self):
         """
