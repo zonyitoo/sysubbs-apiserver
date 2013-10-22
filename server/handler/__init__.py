@@ -37,7 +37,8 @@ def create_all_handlers(app):
             if vals.has_key('views'):
                 for vname, vargs in vals['views'].items():
                     h.add_view_func(rule=url_config.get('%s.%s.url' % (vals['role'], vargs['role'])), 
-                            func=eval('h.%s' % vname), methods=eval(vargs['methods']))
+                            func=eval('h.%s' % vname), 
+                            methods=eval(url_config.get('%s.%s.methods' % (vals['role'], vargs['role']))))
             handlers.append(h)
 
     return handlers

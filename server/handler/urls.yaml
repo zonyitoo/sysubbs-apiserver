@@ -3,8 +3,11 @@ AuthHandler:
 
     RequestAccessToken: 
         url: /request_access_token/
+        methods: ('GET', )
     DeliverServerPublicKey:
         url: /deliver_server_publickey/
+        methods: ('GET', )
     Logout:
         url: /logout/
+        methods: ('GET', )
 

@@ -3,11 +3,8 @@ jbs.auth_handler.AuthHandler:
     views:
         request_access_token:
             role: RequestAccessToken
-            methods: ('GET', )
         deliver_server_publickey:
             role: DeliverServerPublicKey
-            methods: ('GET', )
         logout:
             role: Logout
-            methods: ('GET', )
 
