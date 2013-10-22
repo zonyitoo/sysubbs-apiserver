@@ -1,0 +1,16 @@
+{
+  "jbs.auth_handler.AuthHandler": {
+    "role": "AuthHandler",
+    "views": {
+      "request_access_token": {
+        "role": "RequestAccessToken"
+      },
+      "deliver_server_publickey": {
+        "role": "DeliverServerPublicKey"
+      },
+      "logout": {
+        "role": "Logout"
+      }
+    }
+  }
+}

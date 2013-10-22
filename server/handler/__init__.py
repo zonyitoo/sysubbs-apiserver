@@ -21,12 +21,8 @@ def create_all_handlers(app):
         handler_config = kaptan.Kaptan()
         if 'handlers.yaml' in files:
             handler_config.import_config('%s/%s' % (cur, 'handlers.yaml'))
-        elif 'handlers.ini' in files:
-            handler_config.import_config('%s/%s' % (cur, 'handlers.ini'))
         elif 'handlers.json' in files:
             handler_config.import_config('%s/%s' % (cur, 'handlers.json'))
-        elif 'handlers.conf' in files:
-            handler_config.import_config('%s/%s' % (cur, 'handlers.conf'))
         else:
             raise ValueError("Cannot find handlers configuration file in %s" % cur)
 
