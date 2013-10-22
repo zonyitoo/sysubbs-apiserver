@@ -13,8 +13,7 @@ from server.logger import log_server, log_request
 from jbs_handler import jbsHandler
 
 class AuthHandler(jbsHandler):
-    __handler_name__ = 'auth'
-    __url_prefix__ = '/auth'
+    __handler_name__ = 'jbsauth'
     __processor__ = UserProcessor()
 
     def add_all_view_functions(self):
