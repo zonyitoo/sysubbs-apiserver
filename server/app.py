@@ -1,3 +1,5 @@
+import sys
+sys.path.append('..')
 from flask import Flask
 
 from server.handler import register_api_handlers

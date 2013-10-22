@@ -36,7 +36,8 @@ def create_all_handlers(app):
             h.__url_prefix__ = url_config.get('%s.url_prefix' % vals['role'])
             if vals.has_key('views'):
                 for view in vals['views']:
-                    h.add_url_rule(view['url'], eval('h.%s' % view['name']), eval(view['methods']))
+                    h.add_url_rule(url_config.get('%s.%s' % (vals['role'], view['role'])), 
+                            eval('h.%s' % view['name']), eval(view['methods']))
             handlers.append(h)
 
     return handlers

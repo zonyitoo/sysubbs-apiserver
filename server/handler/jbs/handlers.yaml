@@ -2,6 +2,6 @@ jbs.auth_handler.AuthHandler:
     role: AuthHandler
     views:
         - request_access_token:
-            url: /request_access_token/
+            role: RequestAccessToken
             method: ('POST', )
 
