@@ -1,0 +1,2 @@
+AuthHandler:
+    url_prefix: /auth
