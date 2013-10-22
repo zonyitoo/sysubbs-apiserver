@@ -1,5 +1,6 @@
 AuthHandler:
     url_prefix: /auth
 
-    RequestAccessToken: /request_access_token/
+    RequestAccessToken: 
+        url: /request_access_token/
 
