@@ -5,3 +5,4 @@ requests
 bpython
 redis
 rsa
+kaptan
