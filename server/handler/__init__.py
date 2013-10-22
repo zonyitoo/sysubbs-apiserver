@@ -3,17 +3,41 @@ __description__ = """
                   """
 
 from server.logger import init_logger
+from flask import Blueprint
 init_logger()
 
 
 def create_all_handlers(app):
     #from server.basic.handler import Handler
-    from jbs import *
-    from jbs.jbs_handler import jbsHandler
+    import kaptan
+    url_config = kaptan.Kaptan()
+    url_config.import_config('urls.yaml') 
+
+    import os
     handlers = []
-    for cls in jbsHandler.__subclasses__():
-        h = cls(app)
-        handlers.append(h)
+    for cur, dire, files in os.walk('.'):
+        if cur == '.': continue
+
+        handler_config = kaptan.Kaptan()
+        if 'handlers.yaml' in files:
+            handler_config.import_config(cur + 'handlers.yaml')
+        elif 'handlers.ini' in files:
+            handler_config.import_config(cur + 'handlers.ini')
+        elif 'handlers.json' in files:
+            handler_config.import_config(cur + 'handlers.json')
+        elif 'handlers.conf' in files:
+            handler_config.import_config(cur + 'handlers.conf')
+        else:
+            raise ValueError("Cannot find handlers configuration file in %s" % cur)
+
+        for hname, vals in handler_config.get().items():
+            exec('import %s' % hname)
+            h = eval('%s(app)' % hname)
+            h.__url_prefix__ = url_config.get('%s.url_prefix' % vals['role'])
+            if vals.has_key('views'):
+                for view in vals['views']:
+                    h.add_url_rule(view['url'], eval('h.%s' % view['name']), eval(view['methods']))
+            handlers.append(h)
 
     return handlers
 
