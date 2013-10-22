@@ -31,7 +31,7 @@ def create_all_handlers(app):
             raise ValueError("Cannot find handlers configuration file in %s" % cur)
 
         for hname, vals in handler_config.get().items():
-            exec('import jbs') #% hname)
+            exec('import %s' % cur[cur.rfind('/') + 1:])
             h = eval('%s(app)' % hname)
             h.__url_prefix__ = url_config.get('%s.url_prefix' % vals['role'])
             if vals.has_key('views'):
