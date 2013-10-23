@@ -22,7 +22,7 @@ def create_all_handlers(app):
         elif 'handlers.json' in files:
             handler_config.import_config('%s/%s' % (cur, 'handlers.json'))
         else:
-            raise ValueError("Cannot find handlers configuration file in %s" % cur)
+            raise ValueError("Cannot find any handlers configuration file in %s" % cur)
 
         for hname, vals in handler_config.get().items():
             exec('import %s' % cur[cur.rfind('/') + 1:])
