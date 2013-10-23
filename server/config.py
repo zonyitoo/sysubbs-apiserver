@@ -5,6 +5,7 @@ HERE = os.path.dirname(__file__)
 DEBUG = True
 REDIS_HOST = 'localhost'
 REDIS_PORT = 6379
+USED_HANDLER = 'jbs'
 
 SERVER_PUBLIC_KEY_PKCS1 = \
 u"""

@@ -15,9 +15,7 @@ def create_all_handlers(app):
 
     import os
     handlers = []
-    for cur, dire, files in os.walk('handler'):
-        if cur == 'handler': continue
-
+    for cur, dire, files in os.walk('handler/%s' % app.config['USED_HANDLER']):
         handler_config = kaptan.Kaptan()
         if 'handlers.yaml' in files:
             handler_config.import_config('%s/%s' % (cur, 'handlers.yaml'))
@@ -36,6 +34,8 @@ def create_all_handlers(app):
                             func=eval('h.%s' % vname), 
                             methods=eval(url_config.get('%s.%s.methods' % (vals['role'], vargs['role']))))
             handlers.append(h)
+
+        break
 
     return handlers
 
