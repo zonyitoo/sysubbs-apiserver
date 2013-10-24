@@ -1,67 +1,54 @@
-
 """
-data object specification
+API objects specifications and helper methods
 """
-section_object = """
-        {'sectionCode': sectionCode, 'sectionName': sectionName}
-        """
-friend_ojbect = """
-        {'userid': userid, remark: 'remark'}
-        """ # in most cases, the remark may be null string
-board_object = """
-        {'boardname': boardname, 'boardTitle': title, 'BM': [BM1, BM2, ...], lastPostTime: timestamp,
-        'lastPostFile': filename, 'lastPostTitle': posttitle, 'sectionCode': sectionCode, 'totalPost': postnum}
-        """ # lastPostFile, lastPost may be null in board api
-user_info_object = """
-        {'userid': userid, 'useralias': userAlias, 'signature': signature,
-         'introduction': introduction, 'gender': gender, 'stayTime': stay,
-         'lastlogin': timestamp, 'postsNum': postNum}
-        """
-
 """
-fill object methods
+friends api
 """
-def fill_friend_obj(userid, remark):
-    _dict = {}
-    _dict['userid'] = username
-    if remark:
-        _dict['remark'] = remark
-
-    return _dict
-
-def fill_board_obj(boardname, title, BM, last_post_time, section_code, totalpost, *args, **kwargs):
+def fill_friend_object(username, alias):
     """
-    last_post_file and last_post is optional
-    BM must be an array
+    Friend object:
+        {'username': username, 'alias': alias}
+
+    Returns:
+        friend_object (dict)
     """
-    _dict = {}
-    _dict['boardname'] = boardname
-    _dict['boardTitle'] = title
-    _dict['BM'] = BM
-    _dict['lastPostTime'] = last_post_time
-    _dict['sectionCode'] = section_code
-    _dict['totalPost'] = totalpost
-    if kwargs.get(last_post_file):
-        _dict['lastPostFile'] = last_post_file
-    if kwargs.get(last_post):
-        _dict['lastPostTitle'] = last_post
+    return dict(username=username, alias=alias)
 
-    return _dict
+def fill_friends_list_object(friends_list):
+    """
+    in get_friends api
+    Friends list object:
+        {'friends': [friend_object, ...]}
+    Returns:
+        friends_list_object (dict)
+    """
+    return dict(friends=friends_list)
 
-def fill_user_obj(userid, useralias, signature, introduction, gender,
-        stay_time, lastlogin, posts_num):
-    _dict = {}
-    _dict['userid'] = userid
-    _dict['userAlias'] = useralias
-    _dict['signature'] = signature
-    _dict['introduction'] = introduction
-    _dict['gender'] = gender
-    _dict['stayTime'] = stay_time
-    _dict['lastlogin'] = lastlogin
-    _dict['postsNum'] = posts_num
+def fill_board_object(boardname="", description="", moderators=[], section_code="",
+        total_posts=0, last_post_time=0):
+    """
+    Board object:
+        {'boardname': boardname, 'description': description,
+        'moderators': [m1username, m2....], 'section_code': code,
+        'total_posts': total_posts_num, 'last_post_time': timestamp}
+    """
+    return dict(boardname=boardname, description=description, moderators=moderators, section_code=section_code,
+            total_posts=total_posts, last_post_time=last_post_time)
 
-    return _dict
+def fill_board_list_object(board_list):
+    """
+    Board list object:
+        {"boards": ['board object', ...]}
+    """
+    return dict(boards=board_list)
 
-"""
-errCode and errMsg specification
-"""
+def fill_user_info_object(username="", nickname="", life_value=0, stay_time="",
+        gender="M", signature="", description="", numposts=0):
+    """
+    User info object
+    {'username': username, 'nickname': nickname, 'life_value': value, 'stay_time': time,
+        'gender': M or F, 'signature': signature, 'description': description,
+         'numposts': numposts}
+    """
+    return dict(username=username, nickname=nickname, life_value=life_value, stay_time=stay_time,
+            gender=gender, signature=signature, description=description, numposts=numposts)

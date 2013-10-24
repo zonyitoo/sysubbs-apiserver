@@ -1,7 +1,7 @@
 AuthHandler:
     url_prefix: /auth
 
-    RequestAccessToken: 
+    RequestAccessToken:
         url: /request_access_token/
         methods: ('GET', )
     DeliverServerPublicKey:
@@ -11,3 +11,33 @@ AuthHandler:
         url: /logout/
         methods: ('GET', )
 
+UserHandler:
+    url_prefix: /user
+
+    GetFriends:
+        url: /get_friends/
+        methods: ('GET', )
+
+    AddFriend:
+        url: /add_friend/
+        methods: ('POST', )
+
+    DelFriend:
+        url: /del_friend/
+        methods: ('POST', )
+
+    GetFavBoards:
+        url: /get_fav_boards/
+        methods: ('GET', )
+
+    AddFavBoard:
+        url: /add_fav_board/
+        methods: ('POST', )
+
+    DelFavBoard:
+        url: /del_fav_board/
+        methods: ('POST', )
+
+    GetUserInfo:
+        url: /get_user_info/<username>/
+        methods: ('GET', )

@@ -11,7 +11,7 @@ def create_all_handlers(app):
     #from server.basic.handler import Handler
     import kaptan
     url_config = kaptan.Kaptan()
-    url_config.import_config('handler/urls.yaml') 
+    url_config.import_config('handler/urls.yaml')
 
     import os
     handlers = []

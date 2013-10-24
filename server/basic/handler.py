@@ -18,7 +18,6 @@ class Handler(object):
     __processor__ (Processor): the processor for this Handler
     """
     __handler_name__ = 'handler'
-    __url_prefix__ = '/'
     __processor__ = None
 
     def __init__(self, app):
@@ -39,7 +38,6 @@ class Handler(object):
             app (flask.Flask): the appliction object which this handler is
             registered for
         """
-        self.add_all_view_functions()
         self.app.register_blueprint(self.blueprint, url_prefix=self.__url_prefix__)
 
     def add_view_func(self, rule, methods, func):
@@ -52,11 +50,3 @@ class Handler(object):
             func (function): the function
         """
         self.blueprint.add_url_rule(rule=rule, view_func=func, methods=list(methods))
-
-    def add_all_view_functions(self):
-        """
-        This is a helper method, you can add all your view functions
-        here, ``register_handler`` will invoke this method before
-        registering blueprint
-        """
-        pass

@@ -1,7 +1,7 @@
 import json
 
 from server.basic import BasicFormatter
-from server.basic.formatter import fill_friend_object, fill_friends_list_object, \
+from server.objects import fill_friend_object, fill_friends_list_object, \
         fill_board_object, fill_board_list_object, fill_user_info_object
 
 class CookieFormater(BasicFormatter):

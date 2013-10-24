@@ -1,4 +1,6 @@
 
-__description__ == """
+__description__ = """
                     Object Module, contains the json object specification for the api
                    """
+
+from spec import *
