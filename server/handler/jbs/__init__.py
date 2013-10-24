@@ -4,4 +4,5 @@ __description__ = """
 
 # must import all jbs api Handlers here
 from auth_handler import AuthHandler
+from user_handler import UserHandler
 

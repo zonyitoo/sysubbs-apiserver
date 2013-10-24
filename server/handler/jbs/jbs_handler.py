@@ -22,8 +22,8 @@ class jbsHandlerMixin(object):
         """
         if not is_in_exclude_url():
             cookie = get_cookie_from_authorization()
-            self.cookie = cookie
             if cookie and hasattr(self.__processor__, 'set_cookie'):
+                self.cookie = cookie
                 self.__processor__.set_cookie(cookie)
 
 class jbsHandler(Handler, jbsHandlerMixin):

@@ -24,8 +24,9 @@ def create_all_handlers(app):
         else:
             raise ValueError("Cannot find any handlers configuration file in %s" % cur)
 
+        path = cur[cur.rfind('/') + 1:]
+        exec('import %s' % path)
         for hname, vals in handler_config.get().items():
-            exec('import %s' % cur[cur.rfind('/') + 1:])
             h = eval('%s(app)' % hname)
             h.__url_prefix__ = url_config.get('%s.url_prefix' % vals['role'])
             if vals.has_key('views'):
