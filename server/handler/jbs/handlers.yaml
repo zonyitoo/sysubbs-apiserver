@@ -8,3 +8,26 @@ jbs.auth_handler.AuthHandler:
         logout:
             role: Logout
 
+jbs.user_handler.UserHandler:
+    role: UserHandler
+    views:
+        get_friends:
+            role: GetFriends
+        add_friend:
+            role: AddFriend
+        del_friend:
+            role: DelFriend
+        get_fav_boards:
+            role: GetFavBoards
+        add_fav_board:
+            role: AddFavBoard
+        del_fav_board:
+            role: DelFavBoard
+        get_user_info:
+            role: GetUserInfo
+        update_user_info:
+            role: UpdateUserInfo
+        update_user_avatar:
+            role: UpdateUserAvatar
+        get_user_avatar:
+            role: GetUserAvatar

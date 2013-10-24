@@ -143,6 +143,7 @@ class UserProcessor(BasicUserProcessor, jbsProcessorMixin):
             err_code if fail
         """
         r = requests.post(add_fav_board_site, cookies=self.cookie, data={'boardname': boardname})
+        resp = r.json()
         if resp['success']:
             return True
         else:
@@ -160,6 +161,7 @@ class UserProcessor(BasicUserProcessor, jbsProcessorMixin):
             err_code if fail
         """
         r = requests.post(del_fav_board_site, cookies=self.cookie, data={'boardname': boardname})
+        resp = r.json()
         if resp['success']:
             return True
         else:
@@ -176,6 +178,7 @@ class UserProcessor(BasicUserProcessor, jbsProcessorMixin):
             the user info object
         """
         r = requests.get(query_other_user_site, params={'userid': username})
+        resp = r.json()
         if resp['success']:
             data = resp['data']
             formatter = UserInfoFormatter(data)

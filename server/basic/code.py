@@ -56,5 +56,6 @@ del_mail_fail = 604
 
 alumnus_year_wrong = 701
 
-
 request_data_format_error = 801
+get_user_avatar_fail = 802
+

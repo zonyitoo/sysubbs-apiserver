@@ -41,3 +41,15 @@ UserHandler:
     GetUserInfo:
         url: /get_user_info/<username>/
         methods: ('GET', )
+
+    UpdateUserInfo:
+        url: /update_user_info/
+        methods: ('POST', )
+
+    UpdateUserAvatar:
+        url: /update_user_avatar/
+        methods: ('POST', )
+
+    GetUserAvatar:
+        url: /get_user_avatar/<username>/
+        methods: ('GET', )
