@@ -4,12 +4,12 @@ import json
 import time
 import base64
 
+from test_basic import HOST
+
 client_publickey = rsa.PublicKey.load_pkcs1(u'-----BEGIN RSA PUBLIC KEY-----\nMBgCEQCzxvEyRJXuwye7pJ/CO6yDAgMBAAE=\n-----END RSA PUBLIC KEY-----\n')
 client_privatekey = rsa.PrivateKey.load_pkcs1(u'-----BEGIN RSA PRIVATE KEY-----\nMGICAQACEQCzxvEyRJXuwye7pJ/CO6yDAgMBAAECEAtsJH8RJIWaVzsglJjPgSEC\nCQvWDmTO3FPHXwIIDzBVuDiHIV0CCQSEUcXis249XQIIC7XJMMmsLSUCCQqYaBIP\nXS5orA==\n-----END RSA PRIVATE KEY-----\n')
 
 client_publickey_str = u'-----BEGIN RSA PUBLIC KEY-----\nMBgCEQCzxvEyRJXuwye7pJ/CO6yDAgMBAAE=\n-----END RSA PUBLIC KEY-----\n'
-
-HOST = "http://127.0.0.1:5050"
 
 def __rsa128_encrypt_str(data, public_key):
     data_remain = data
@@ -49,7 +49,7 @@ def get_server_publickey():
         return server_publickey, login_token
 
 def get_access_token(server_publickey, login_token):
-    data = {'username': 'okone', 'password': '8612001', 'login_token': login_token, 'nounce': int(time.time())}
+    data = {'username': 'okone', 'password': '8612001', 'login_token': login_token, 'nounce': time.time()}
     data = json.dumps(data)
     data = __rsa128_encrypt_str(data, rsa.PublicKey.load_pkcs1(server_publickey))
     headers = {'Authorization': data}
@@ -66,7 +66,7 @@ def get_access_token(server_publickey, login_token):
         return access_token, expire
 
 def logout(access_token):
-    data = {'access_token': access_token, "nounce": int(time.time() + 1000)}
+    data = {'access_token': access_token, "nounce": time.time()}
     data = json.dumps(data)
 
     data = __rsa128_encrypt_str(data, rsa.PublicKey.load_pkcs1(server_publickey))
@@ -88,4 +88,4 @@ if __name__ == '__main__':
     expire: %s
     """ % (server_publickey, login_token, access_token, expire)
 
-    print "logout, resp: %s" % str(logout(access_token))
+    #print "logout, resp: %s" % str(logout(access_token))
