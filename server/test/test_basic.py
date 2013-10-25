@@ -2,6 +2,7 @@ import time
 import base64
 import json
 import rsa
+import StringIO
 
 server_publickey = \
 u"""
@@ -42,3 +43,16 @@ def get_request_header(access_token):
     headers = {'Authorization': data}
 
     return headers
+
+def save_binary_content(binary_content, out_filename):
+    file_io = StringIO.StringIO(binary_content)
+    new_file = open(out_filename, 'w')
+    new_file.write(file_io.getvalue())
+    new_file.close()
+    file_io.close()
+
+def get_binary_content(filename):
+    f = open(filename)
+    content = ''.join(f.readlines())
+    f.close()
+    return content

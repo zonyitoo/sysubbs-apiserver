@@ -1,7 +1,8 @@
 import requests
 import json
+import StringIO
 
-from test_basic import server_publickey, HOST, get_request_header
+from test_basic import server_publickey, HOST, get_request_header, save_binary_content, get_binary_content
 
 access_token = "4be6548e-3cd8-11e3-aa62-78e4005393d1"
 
@@ -56,13 +57,24 @@ def get_user_info():
     return resp.json()
 
 def update_user_info():
-    pass
+    headers = get_request_header(access_token)
+
+    data = dict(nickname="ragnarok", gender="M", description=None, signature=None)
+    data = json.dumps(data)
+    resp = requests.post(HOST + "/update_user_info/", headers=headers, data=data)
+    return resp.json()
 
 def get_user_avatar():
-    pass
+    resp = requests.get(HOST + "/get_user_avatar/okone/")
+    avatar_binary = resp.content
+    save_binary_content(avatar_binary, "okone_avatar.jpg")
+
 
 def update_user_avatar():
-    pass
+    headers = get_request_header(access_token)
+    data = get_binary_content('avatar2.jpg')
+    resp = requests.post(HOST + "/update_user_avatar/", headers=headers, data=data)
+    return resp.json()
 
 if __name__ == '__main__':
     print "get_friends: %s" % get_friends()
@@ -72,4 +84,7 @@ if __name__ == '__main__':
     print "del_fav_board: %s" % del_fav_board()
     print "add_fav_board: %s" % add_fav_board()
     print "get_user_info: %s" % get_user_info()
+    print "update_user_info: %s" % update_user_info()
+    get_user_avatar()
+    print "update_user_avatar: %s" % update_user_avatar()
 

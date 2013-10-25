@@ -227,7 +227,7 @@ class UserProcessor(BasicUserProcessor, jbsProcessorMixin):
             True, if update success or
             err_code if update fail
         """
-        avatar_file = StringIO.StringIO(binary_content)
+        avatar_file = StringIO.StringIO(avatar_binary)
         files = {'avatar': avatar_file}
         r = requests.post(cookies=self.cookie, url=update_user_info_site, files=files)
         resp = r.json()
