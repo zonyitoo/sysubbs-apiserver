@@ -65,7 +65,7 @@ def get_access_token(server_publickey, login_token):
 
         return access_token, expire
 
-def logout(access_token):
+def logout(access_token, server_publickey):
     data = {'access_token': access_token, "nounce": time.time()}
     data = json.dumps(data)
 
@@ -88,4 +88,4 @@ if __name__ == '__main__':
     expire: %s
     """ % (server_publickey, login_token, access_token, expire)
 
-    #print "logout, resp: %s" % str(logout(access_token))
+    print "logout, resp: %s" % str(logout(access_token, server_publickey))

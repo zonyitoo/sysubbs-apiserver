@@ -13,6 +13,7 @@ def get_all_boards_info():
 
 def get_board_info(boardname):
     r = requests.get(url=get_board_info_site, params={'boardname': boardname})
+    print r.text
     return r.json()
 
 def get_boards_info_by_seccode(seccode):
@@ -28,17 +29,21 @@ if __name__ == '__main__':
     login_data = login('okone', '8612001')
     cookie = login_data['cookie']
 
-    #boardname_data = get_all_boardnames(cookie)
-    #print "get_all_boardnames, response: %s" % boardname_data
+    boardname_data = get_all_boardnames(cookie)
+    print "get_all_boardnames, response: %s" % boardname_data
+    print
 
-    #boards_info_data = get_all_boards_info()
-    #print "get_all_boards_info, response: %s" % boards_info_data
+    boards_info_data = get_all_boards_info()
+    print "get_all_boards_info, response: %s" % boards_info_data
+    print 
 
     board_info_data = get_board_info('water')
     print "get_board_info, response: %s" % board_info_data
+    print 
 
     boards_info_data = get_boards_info_by_seccode('u')
     print "get_boards_info_by_seccode, response: %s" % boards_info_data
+    print
 
     clear_unread_data = clear_board_unread(cookie, 'SYSU_Info')
     print "clear_board_unread, response: %s" % clear_unread_data

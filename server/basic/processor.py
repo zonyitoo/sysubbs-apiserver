@@ -126,6 +126,12 @@ class BasicBoardProcessor(Processor):
         """
         raise NotImplementedError()
 
+    def get_all_boards_info_by_section_code(self):
+        """
+        get a specific section's boards
+        """
+        raise NotImplementedError()
+
     def clear_board_unread(self):
         """
         clear the unread marks for a specific board

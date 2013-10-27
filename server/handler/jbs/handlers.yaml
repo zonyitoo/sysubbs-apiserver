@@ -31,3 +31,17 @@ jbs.user_handler.UserHandler:
             role: UpdateUserAvatar
         get_user_avatar:
             role: GetUserAvatar
+
+jbs.board_handler.BoardHandler:
+    role: BoardHandler
+    views:
+        get_all_boardname:
+            role: GetAllBoardsNames
+        get_all_boards_info:
+            role: GetAllBoardsInfo
+        get_board_info:
+            role: GetBoardInfo
+        get_all_boards_info_by_section_code:
+            role: GetBoardsInfoBySectionCode
+        clear_board_unread:
+            role: ClearBoardUnread

@@ -53,7 +53,3 @@ def fill_user_info_object(username="", nickname="", life_value=0, stay_time="",
     return dict(username=username, nickname=nickname, life_value=life_value, stay_time=stay_time,
             gender=gender, signature=signature, description=description, numposts=numposts)
 
-
-'''
-Board Objects
-'''
