@@ -166,6 +166,13 @@ class BasicPostProcessor(Processor):
         """
         raise NotImplementedError()
 
+    def get_post_content(self):
+        """
+        get a specific post content according
+        to post's id
+        """
+        raise NotImplementedError()
+
 class BasicMailProcess(Processor):
     def get_mailbox_info(self):
         """

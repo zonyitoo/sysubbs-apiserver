@@ -33,8 +33,8 @@ class FriendsListFormatter(BasicFormatter):
         friends_list = []
         for friend in raw_friends_list:
             username = friend['id']
-            alias = friend['exp']
-            friends_list.append(fill_friend_object(username, alias))
+            nickname = friend['exp']
+            friends_list.append(fill_friend_object(username, nickname))
         return fill_friends_list_object(friends_list)
 
 class UserFavBoardFormatter(BasicFormatter):

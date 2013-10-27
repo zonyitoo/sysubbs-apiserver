@@ -4,15 +4,15 @@ API objects specifications and helper methods
 """
 friends api
 """
-def fill_friend_object(username, alias):
+def fill_friend_object(username, nickname):
     """
     Friend object:
-        {'username': username, 'alias': alias}
+        {'username': username, 'nickname': nickname}
 
     Returns:
         friend_object (dict)
     """
-    return dict(username=username, alias=alias)
+    return dict(username=username, nickname=nickname)
 
 def fill_friends_list_object(friends_list):
     """
