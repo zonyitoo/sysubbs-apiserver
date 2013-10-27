@@ -3,6 +3,8 @@ import base64
 import json
 import rsa
 import StringIO
+import logging
+logger = logging.getLogger()
 
 server_publickey = \
 u"""
@@ -56,3 +58,14 @@ def get_binary_content(filename):
     content = ''.join(f.readlines())
     f.close()
     return content
+
+import unittest
+class BaseTestCase(unittest.TestCase):
+    def setUp(self):
+        from test_auth import *
+        self.server_publickey, self.login_token = get_server_publickey()
+        self.access_token, self.expire = get_access_token(self.server_publickey, self.login_token)
+
+    def tearDown(self):
+        from test_auth import *
+        logger.info('Logout %s' % str(logout(self.access_token, self.server_publickey)))

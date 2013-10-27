@@ -3,6 +3,7 @@ import rsa
 import json
 import time
 import base64
+import unittest
 
 from test_basic import HOST
 
@@ -76,8 +77,17 @@ def logout(access_token, server_publickey):
 
     return resp.status_code, resp.text
 
+class TestAuth(unittest.TestCase):
+    def test_auth(self):
+        server_publickey, login_token = get_server_publickey()
+        access_token, expire = get_access_token(server_publickey, login_token)
+        status_code, _ = logout(access_token, server_publickey)
+        
+        self.assertEqual(status_code, 200)
+
 
 if __name__ == '__main__':
+    '''
     server_publickey, login_token = get_server_publickey()
     access_token, expire = get_access_token(server_publickey, login_token)
 
@@ -89,3 +99,6 @@ if __name__ == '__main__':
     """ % (server_publickey, login_token, access_token, expire)
 
     print "logout, resp: %s" % str(logout(access_token, server_publickey))
+    '''
+
+    unittest.main()
