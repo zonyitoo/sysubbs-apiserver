@@ -80,7 +80,7 @@ class UserHandler(jbsHandler):
             return post_data_format_error()
         ret = self.__processor__.add_fav_board(**data)
         if is_process_success(ret):
-            return make_response(fill_success_format(ret))
+            return make_response(fill_success_format())
         else:
             return make_response(fill_fail_format(err_code=ret))
 
@@ -96,7 +96,7 @@ class UserHandler(jbsHandler):
             return post_data_format_error()
         ret = self.__processor__.del_fav_board(**data)
         if is_process_success(ret):
-            return make_response(fill_success_format(ret))
+            return make_response(fill_success_format())
         else:
             return make_response(fill_fail_format(err_code=ret))
 
