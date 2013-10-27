@@ -13,7 +13,6 @@ class UserHandler(jbsHandler):
     __handler_name__ = 'user'
     __processor__ = UserProcessor()
 
-    @require_auth
     def get_friends(self):
         """
         get user's friend
@@ -25,7 +24,6 @@ class UserHandler(jbsHandler):
         else:
             return make_response(fill_fail_format(err_code=ret))
 
-    @require_auth
     def add_friend(self):
         """
         add a new friend
@@ -41,7 +39,6 @@ class UserHandler(jbsHandler):
         else:
             return make_response(fill_fail_format(err_code=ret))
 
-    @require_auth
     def del_friend(self):
         """
         delete a friend
@@ -57,7 +54,6 @@ class UserHandler(jbsHandler):
         else:
             return make_response(fill_fail_format(err_code=ret))
 
-    @require_auth
     def get_fav_boards(self):
         """
         get the fav boards
@@ -68,7 +64,6 @@ class UserHandler(jbsHandler):
         else:
             return make_response(fill_fail_format(err_code=ret))
 
-    @require_auth
     def add_fav_board(self):
         """
         add a new favorite board
@@ -84,7 +79,6 @@ class UserHandler(jbsHandler):
         else:
             return make_response(fill_fail_format(err_code=ret))
 
-    @require_auth
     def del_fav_board(self):
         """
         delete a favorite board
@@ -110,7 +104,6 @@ class UserHandler(jbsHandler):
         else:
             return make_response(fill_fail_format(err_code=ret))
 
-    @require_auth
     def update_user_info(self):
         """
         update user's info, except avatar
@@ -133,7 +126,6 @@ class UserHandler(jbsHandler):
         else:
             return make_response(fill_fail_format(err_code=ret))
 
-    @require_auth
     def update_user_avatar(self):
         """
         update user avatar

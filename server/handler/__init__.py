@@ -3,7 +3,7 @@ __description__ = """
                   """
 
 from server.logger import init_logger
-from flask import Blueprint
+from server.basic.auth import require_auth
 init_logger()
 
 
@@ -24,15 +24,20 @@ def create_all_handlers(app):
         else:
             raise ValueError("Cannot find any handlers configuration file in %s" % cur)
 
-        path = cur[cur.rfind('/') + 1:]
-        exec('import %s' % path)
+        exec('import %s' % app.config['USED_HANDLER'])
         for hname, vals in handler_config.get().items():
             h = eval('%s(app)' % hname)
             h.__url_prefix__ = url_config.get('%s.url_prefix' % vals['role'])
             if vals.has_key('views'):
                 for vname, vargs in vals['views'].items():
+                    view_func = eval('h.%s' % vname)
+                    try:
+                        if url_config.get('%s.%s.require_auth' % (vals['role'], vargs['role'])):
+                            view_func = require_auth(view_func)
+                    except KeyError:
+                        pass
                     h.add_view_func(rule=url_config.get('%s.%s.url' % (vals['role'], vargs['role'])), 
-                            func=eval('h.%s' % vname), 
+                            func=view_func, 
                             methods=eval(url_config.get('%s.%s.methods' % (vals['role'], vargs['role']))))
             handlers.append(h)
 

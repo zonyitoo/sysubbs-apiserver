@@ -2,9 +2,9 @@ import sys
 sys.path.append('..')
 from flask import Flask
 
-from server.handler import register_api_handlers
 
 def init_app():
+    from server.handler import register_api_handlers
     """
     this app is used for launch
     """

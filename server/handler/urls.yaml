@@ -10,6 +10,7 @@ AuthHandler:
     Logout:
         url: /logout/
         methods: ('GET', )
+        require_auth: True        
 
 UserHandler:
     url_prefix: /user
@@ -17,26 +18,32 @@ UserHandler:
     GetFriends:
         url: /get_friends/
         methods: ('GET', )
+        require_auth: True
 
     AddFriend:
         url: /add_friend/
         methods: ('POST', )
+        require_auth: True
 
     DelFriend:
         url: /del_friend/
         methods: ('POST', )
+        require_auth: True
 
     GetFavBoards:
         url: /get_fav_boards/
         methods: ('GET', )
+        require_auth: True
 
     AddFavBoard:
         url: /add_fav_board/
         methods: ('POST', )
+        require_auth: True
 
     DelFavBoard:
         url: /del_fav_board/
         methods: ('POST', )
+        require_auth: True
 
     GetUserInfo:
         url: /get_user_info/<username>/
@@ -45,10 +52,12 @@ UserHandler:
     UpdateUserInfo:
         url: /update_user_info/
         methods: ('POST', )
+        require_auth: True
 
     UpdateUserAvatar:
         url: /update_user_avatar/
         methods: ('POST', )
+        require_auth: True
 
     GetUserAvatar:
         url: /get_user_avatar/<username>/
