@@ -1,0 +1,17 @@
+language: python
+
+python:
+    - "2.7"
+
+before_install:
+    - sudo apt-get update -qq
+
+install:
+    - pip install -r requirements.txt
+    - sudo apt-get install redis-server
+
+before_script:
+    - cd server
+    - python app.py
+
+script: python test/run_tests.py
