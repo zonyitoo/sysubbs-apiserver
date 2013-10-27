@@ -105,7 +105,6 @@ class AuthHandler(jbsHandler):
         response.headers['Authorization'] = ret_val
         return response
 
-    @require_auth
     def logout(self):
         """
         logout user

@@ -61,7 +61,7 @@ def update_user_info():
 
     data = dict(nickname="ragnarok", gender="M", description=None, signature=None)
     data = json.dumps(data)
-    resp = requests.post(HOST + "/update_user_info/", headers=headers, data=data)
+    resp = requests.post(HOST + "/update_user_info/", data=data)
     return resp.json()
 
 def get_user_avatar():
@@ -73,7 +73,7 @@ def get_user_avatar():
 def update_user_avatar():
     headers = get_request_header(access_token)
     data = get_binary_content('avatar2.jpg')
-    resp = requests.post(HOST + "/update_user_avatar/", headers=headers, data=data)
+    resp = requests.post(HOST + "/update_user_avatar/", data=data, headers=headers)
     return resp.json()
 
 if __name__ == '__main__':

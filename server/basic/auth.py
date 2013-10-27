@@ -282,6 +282,8 @@ def require_auth(func):
     @wraps(func)
     def decorated(*args, **kwargs):
         auth = request.headers.get('Authorization', None)
+        if not auth:
+            return fail_auth()
         if not check_auth(auth):
             return fail_auth()
         return func(*args, **kwargs)
