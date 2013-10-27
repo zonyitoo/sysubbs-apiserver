@@ -12,6 +12,8 @@ install:
 
 before_script:
     - cd server
-    - python app.py
+    - python app.py &
 
-script: python test/run_tests.py
+script: 
+    - cd test
+    - python run_tests.py
