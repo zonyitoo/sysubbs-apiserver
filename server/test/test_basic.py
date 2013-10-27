@@ -14,6 +14,12 @@ MBgCEQC+xlMZRSu5W1fw4DqAlk9NAgMBAAE=
 """
 HOST = "http://127.0.0.1:5050"
 
+import sys
+sys.path.append('..')
+
+from server.app import init_app
+app = init_app().test_client()
+
 def __rsa128_encrypt_str(data, public_key):
     data_remain = data
     result = ''
@@ -63,6 +69,7 @@ import unittest
 class BaseTestCase(unittest.TestCase):
     def setUp(self):
         from test_auth import *
+        self.client = app        
         self.server_publickey, self.login_token = get_server_publickey()
         self.access_token, self.expire = get_access_token(self.server_publickey, self.login_token)
 

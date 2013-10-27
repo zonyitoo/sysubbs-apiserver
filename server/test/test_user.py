@@ -1,81 +1,89 @@
-import requests
 import json
 import StringIO
 import logging
 logger = logging.getLogger()
 
-from test_basic import HOST, get_request_header, save_binary_content, get_binary_content
+from test_basic import get_request_header, save_binary_content, get_binary_content
 from test_auth import *
 
-HOST = HOST + "/user"
+import sys
+sys.path.append('..')
+
+from server.app import init_app
+app = init_app().test_client()
+
+import os
+os.chdir(os.path.dirname(os.path.abspath(__file__)))
+
+HOST = "/user"
 
 def get_friends(access_token):
     headers = get_request_header(access_token)
 
-    resp = requests.get(HOST + "/get_friends/", headers=headers)
-    return resp.json()
+    resp = app.get(HOST + "/get_friends/", headers=headers)
+    return json.loads(resp.data)
 
 def add_friend(access_token):
     headers = get_request_header(access_token)
 
     data = dict(username='okone', alias="okone")
     data = json.dumps(data)
-    resp = requests.post(HOST + "/add_friend/", headers=headers, data=data)
-    return resp.json()
+    resp = app.post(HOST + "/add_friend/", headers=headers, data=data)
+    return json.loads(resp.data)
 
 def del_friend(access_token):
     headers = get_request_header(access_token)
 
     data = dict(username="okone")
     data = json.dumps(data)
-    resp = requests.post(HOST + "/del_friend/", headers=headers, data=data)
-    return resp.json()
+    resp = app.post(HOST + "/del_friend/", headers=headers, data=data)
+    return json.loads(resp.data)
 
 def get_fav_boards(access_token):
     headers = get_request_header(access_token)
 
-    resp = requests.get(HOST + "/get_fav_boards/", headers=headers)
-    return resp.json()
+    resp = app.get(HOST + "/get_fav_boards/", headers=headers)
+    return json.loads(resp.data)
 
 def add_fav_board(access_token):
     headers = get_request_header(access_token)
 
     data = dict(boardname="water")
     data = json.dumps(data)
-    resp = requests.post(HOST + "/add_fav_board/", headers=headers, data=data)
-    return resp.json()
+    resp = app.post(HOST + "/add_fav_board/", headers=headers, data=data)
+    return json.loads(resp.data)
 
 def del_fav_board(access_token):
     headers = get_request_header(access_token)
 
     data = dict(boardname="water")
     data = json.dumps(data)
-    resp = requests.post(HOST + "/del_fav_board/", headers=headers, data=data)
-    return resp.json()
+    resp = app.post(HOST + "/del_fav_board/", headers=headers, data=data)
+    return json.loads(resp.data)
 
 def get_user_info():
-    resp = requests.get(HOST + "/get_user_info/zhongyut/")
-    return resp.json()
+    resp = app.get(HOST + "/get_user_info/zhongyut/")
+    return json.loads(resp.data)
 
 def update_user_info(access_token):
     headers = get_request_header(access_token)
 
     data = dict(nickname="ragnarok", gender="M", description=None, signature=None)
     data = json.dumps(data)
-    resp = requests.post(HOST + "/update_user_info/", data=data, headers=headers)
-    return resp.json()
+    resp = app.post(HOST + "/update_user_info/", data=data, headers=headers)
+    return json.loads(resp.data)
 
 def get_user_avatar():
-    resp = requests.get(HOST + "/get_user_avatar/okone/")
-    avatar_binary = resp.content
+    resp = app.get(HOST + "/get_user_avatar/okone/")
+    avatar_binary = resp.data
     save_binary_content(avatar_binary, "okone_avatar.jpg")
 
 
 def update_user_avatar(access_token):
     headers = get_request_header(access_token)
     data = get_binary_content('avatar2.jpg')
-    resp = requests.post(HOST + "/update_user_avatar/", data=data, headers=headers)
-    return resp.json()
+    resp = app.post(HOST + "/update_user_avatar/", data=data, headers=headers)
+    return json.loads(resp.data)
 
 class TestUser(unittest.TestCase):
     def setUp(self):

@@ -1,31 +1,42 @@
 from test_auth import *
 from test_basic import HOST, get_request_header
-import requests
 import unittest
 import logging
+import json
 logger = logging.getLogger()
+
+import sys
+sys.path.append('..')
+
+from server.app import init_app
+app = init_app().test_client()
 
 HOST = HOST + '/board'
 
 def get_all_boardname(access_token):
-    resp = requests.get(HOST + '/name/all/', headers=get_request_header(access_token))
-    return resp.json()
+    #resp = requests.get(HOST + '/name/all/', headers=get_request_header(access_token))
+    resp = app.get(HOST + '/name/all/', headers=get_request_header(access_token))
+    return json.loads(resp.data)
 
 def get_all_boards_info():
-    resp = requests.get(HOST + '/info/all/')
-    return resp.json()
+    #resp = requests.get(HOST + '/info/all/')
+    resp = app.get(HOST + '/info/all/')
+    return json.loads(resp.data)
 
 def get_board_info(boardname):
-    resp = requests.get(HOST + ('/info/by_board_name/%s/' % boardname))
-    return resp.json()
+    #resp = requests.get(HOST + ('/info/by_board_name/%s/' % boardname))
+    resp = app.get(HOST + ('/info/by_board_name/%s/' % boardname))
+    return json.loads(resp.data)
 
 def get_all_boards_info_by_section_code(seccode):
-    resp = requests.get(HOST + ('/info/by_section_code/%s/' % seccode))
-    return resp.json()
+    #resp = requests.get(HOST + ('/info/by_section_code/%s/' % seccode))
+    resp = app.get(HOST + ('/info/by_section_code/%s/' % seccode))
+    return json.loads(resp.data)
 
 def clear_board_unread(access_token, boardname):
-    resp = requests.post(HOST + '/clear_board_unread/%s/' % boardname, headers=get_request_header(access_token))
-    return resp.json()
+    #resp = requests.post(HOST + '/clear_board_unread/%s/' % boardname, headers=get_request_header(access_token))
+    resp = app.post(HOST + '/clear_board_unread/%s/' % boardname, headers=get_request_header(access_token))
+    return json.loads(resp.data)
 
 class TestBoard(unittest.TestCase):
     def setUp(self):

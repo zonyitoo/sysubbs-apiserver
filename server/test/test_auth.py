@@ -7,6 +7,12 @@ import unittest
 
 from test_basic import HOST
 
+import sys
+sys.path.append('..')
+
+from server.app import init_app
+app = init_app().test_client()
+
 client_publickey = rsa.PublicKey.load_pkcs1(u'-----BEGIN RSA PUBLIC KEY-----\nMBgCEQCzxvEyRJXuwye7pJ/CO6yDAgMBAAE=\n-----END RSA PUBLIC KEY-----\n')
 client_privatekey = rsa.PrivateKey.load_pkcs1(u'-----BEGIN RSA PRIVATE KEY-----\nMGICAQACEQCzxvEyRJXuwye7pJ/CO6yDAgMBAAECEAtsJH8RJIWaVzsglJjPgSEC\nCQvWDmTO3FPHXwIIDzBVuDiHIV0CCQSEUcXis249XQIIC7XJMMmsLSUCCQqYaBIP\nXS5orA==\n-----END RSA PRIVATE KEY-----\n')
 
@@ -37,7 +43,8 @@ def __rsa128_decrypt_str(data, private_key):
 
 def get_server_publickey():
     headers = {'Authorization': json.dumps({'client_publickey': client_publickey_str})}
-    resp = requests.get(HOST + "/auth" + "/deliver_server_publickey/", headers=headers)
+    #resp = requests.get(HOST + "/auth" + "/deliver_server_publickey/", headers=headers)
+    resp = app.get("/auth/deliver_server_publickey/", headers=headers)
 
     authorization = resp.headers.get('Authorization')
     if authorization:
@@ -55,7 +62,8 @@ def get_access_token(server_publickey, login_token):
     data = __rsa128_encrypt_str(data, rsa.PublicKey.load_pkcs1(server_publickey))
     headers = {'Authorization': data}
 
-    resp = requests.get(HOST + "/auth" + "/request_access_token/", headers=headers)
+    #resp = requests.get(HOST + "/auth" + "/request_access_token/", headers=headers)
+    resp = app.get("/auth/request_access_token/", headers=headers)
 
     authorization = resp.headers.get('Authorization')
     if authorization:
@@ -73,9 +81,10 @@ def logout(access_token, server_publickey):
     data = __rsa128_encrypt_str(data, rsa.PublicKey.load_pkcs1(server_publickey))
     headers = {'Authorization': data}
 
-    resp = requests.get(HOST + "/auth" + "/logout/", headers=headers)
+    #resp = requests.get(HOST + "/auth" + "/logout/", headers=headers)
+    resp = app.get("/auth/logout/", headers=headers)
 
-    return resp.status_code, resp.text
+    return resp.status_code, resp.data
 
 class TestAuth(unittest.TestCase):
     def test_auth(self):

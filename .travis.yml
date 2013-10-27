@@ -10,11 +10,6 @@ install:
     - pip install -r requirements.txt
     - sudo apt-get install redis-server
 
-before_script:
-    - cd server
-    - python app.py &
-    - sleep 1
-
 script: 
-    - cd test
+    - cd server
     - python run_tests.py
