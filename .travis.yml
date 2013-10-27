@@ -13,6 +13,7 @@ install:
 before_script:
     - cd server
     - python app.py &
+    - sleep 1
 
 script: 
     - cd test
