@@ -10,7 +10,7 @@ AuthHandler:
     Logout:
         url: /logout/
         methods: ('GET', )
-        require_auth: True        
+        require_auth: True
 
 UserHandler:
     url_prefix: /user

@@ -131,6 +131,8 @@ def get_access_token_value(access_token):
 
 def get_cookie_from_access_token(access_token):
     access_token_val = redis_instance.get(access_token_key_format % access_token)
+    if not access_token_val:
+        return None
     access_token_val = json.loads(access_token_val)
     cookie = access_token_val.get('cookie', None)
     if cookie:
