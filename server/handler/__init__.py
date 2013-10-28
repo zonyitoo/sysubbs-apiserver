@@ -38,7 +38,7 @@ def create_all_handlers(app):
                         pass
                     h.add_view_func(rule=url_config.get('%s.%s.url' % (vals['role'], vargs['role'])), 
                             func=view_func, 
-                            methods=eval(url_config.get('%s.%s.methods' % (vals['role'], vargs['role']))))
+                            methods=tuple(url_config.get('%s.%s.methods' % (vals['role'], vargs['role']))))
             handlers.append(h)
 
         break

@@ -3,13 +3,13 @@ AuthHandler:
 
     RequestAccessToken:
         url: /request_access_token/
-        methods: ('GET', )
+        methods: [GET]
     DeliverServerPublicKey:
         url: /deliver_server_publickey/
-        methods: ('GET', )
+        methods: [GET]
     Logout:
         url: /logout/
-        methods: ('GET', )
+        methods: [GET]
         require_auth: True
 
 UserHandler:
@@ -17,73 +17,73 @@ UserHandler:
 
     GetFriends:
         url: /get_friends/
-        methods: ('GET', )
+        methods: [GET]
         require_auth: True
 
     AddFriend:
         url: /add_friend/
-        methods: ('POST', )
+        methods: [POST]
         require_auth: True
 
     DelFriend:
         url: /del_friend/
-        methods: ('POST', )
+        methods: [POST]
         require_auth: True
 
     GetFavBoards:
         url: /get_fav_boards/
-        methods: ('GET', )
+        methods: [GET]
         require_auth: True
 
     AddFavBoard:
         url: /add_fav_board/
-        methods: ('POST', )
+        methods: [POST]
         require_auth: True
 
     DelFavBoard:
         url: /del_fav_board/
-        methods: ('POST', )
+        methods: [POST]
         require_auth: True
 
     GetUserInfo:
         url: /get_user_info/<username>/
-        methods: ('GET', )
+        methods: [GET]
 
     UpdateUserInfo:
         url: /update_user_info/
-        methods: ('POST', )
+        methods: [POST]
         require_auth: True
 
     UpdateUserAvatar:
         url: /update_user_avatar/
-        methods: ('POST', )
+        methods: [POST]
         require_auth: True
 
     GetUserAvatar:
         url: /get_user_avatar/<username>/
-        methods: ('GET', )
+        methods: [GET]
 
 BoardHandler:
     url_prefix: /board
 
     GetAllBoardsNames:
         url: /name/all/
-        methods: ('GET', )
+        methods: [GET]
         require_auth: True
 
     GetAllBoardsInfo:
         url: /info/all/
-        methods: ('GET', )
+        methods: [GET]
 
     GetBoardInfo:
         url: /info/by_board_name/<boardname>/
-        methods: ('GET', )
+        methods: [GET]
 
     GetBoardsInfoBySectionCode:
         url: /info/by_section_code/<section_code>/
-        methods: ('GET', )
+        methods: [GET]
 
     ClearBoardUnread:
         url: /clear_board_unread/<boardname>/
-        methods: ('POST', )
+        methods: [POST]
         require_auth: True
