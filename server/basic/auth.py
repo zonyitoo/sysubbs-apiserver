@@ -25,7 +25,7 @@ import json
 import time
 import base64
 
-from requests.utils import cookiejar_from_dict
+from requests.utils import cookiejar_from_dict, add_dict_to_cookiejar
 from functools import wraps
 from flask import request, Response, make_response
 from server.app import init_util_app
@@ -136,7 +136,7 @@ def get_cookie_from_access_token(access_token):
     access_token_val = json.loads(access_token_val)
     cookie = access_token_val.get('cookie', None)
     if cookie:
-        return cookiejar_from_dict({'PHPSESSID': cookie})
+        return {'PHPSESSID': cookie}
     else:
         return None
 
