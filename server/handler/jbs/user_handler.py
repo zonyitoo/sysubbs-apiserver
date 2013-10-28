@@ -104,7 +104,7 @@ class UserHandler(jbsHandler):
         get user's info for 'username'
         """
         ret = self.__processor__.get_user_info(username)
-        #log_request(api_addr='get_user_info/%s' % username, response=ret)
+        log_request(api_addr='get_user_info/%s' % username, response=ret)
         if is_process_success(ret):
             return make_response(fill_success_format(ret))
         else:
@@ -153,7 +153,7 @@ class UserHandler(jbsHandler):
         get user avatar
         """
         ret = self.__processor__.get_user_avatar(username)
-        log_request(api_addr="get_user_avatar/%s" % username, request=ret)
+        log_server(api_addr="get_user_avatar", msg="username is %s, avatar is None[%s]" % (username, ret is None))
         if ret:
             return make_response(ret)
         else:
