@@ -122,14 +122,21 @@ class AuthHandler(jbsHandler):
         access_token = self.get_logout_info_from_authorization()
         log_server(api_addr="logout", msg="logout, cookie: %s" % self.cookie)
         if self.cookie:
-            logout_ret = self.__processor__.logout()
-            if logout_ret is True:
+            try:
+                logout_ret = self.__processor__.logout()
+                if logout_ret is True:
+                    del_access_token(access_token)
+                    log_server(api_addr="logout", msg="logout success, del access_token: %s" % access_token)
+                    return make_response(fill_success_format())
+                else:
+                    log_server(api_addr="logout", msg="logout fail, err_code: %s" % logout_ret)
+                    return make_response(fill_fail_format(err_code=logout_ret))
+            except Exception, e:
                 del_access_token(access_token)
-                log_server(api_addr="logout", msg="logout success, del access_token: %s" % access_token)
+                log_server(api_addr="logout", msg="logout throw exception: %s, del access_token: %s" % (str(e), access_token))
                 return make_response(fill_success_format())
-            else:
-                log_server(api_addr="logout", msg="logout fail, err_code: %s" % logout_ret)
-                return make_response(fill_fail_format(err_code=logout_ret))
+
+
         else:
             del_access_token(access_token)
             log_server(api_addr="logout", msg="logout success, del access_token: %s" % access_token)
