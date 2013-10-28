@@ -6,7 +6,7 @@ SYSUBBS API Server
 
 http://bbs.sysu.edu.cn
 
-*Still developing, don't panic.*
+Note: *Still developing. Don't panic. Current version is not ready for public use.*
 
 Dependences
 ===========
