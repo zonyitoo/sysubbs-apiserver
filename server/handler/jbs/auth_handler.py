@@ -131,7 +131,7 @@ class AuthHandler(jbsHandler):
                 else:
                     log_server(api_addr="logout", msg="logout fail, err_code: %s" % logout_ret)
                     return make_response(fill_fail_format(err_code=logout_ret))
-            except Exception, e:
+            except KeyError, e:
                 del_access_token(access_token)
                 log_server(api_addr="logout", msg="logout throw exception: %s, del access_token: %s" % (str(e), access_token))
                 return make_response(fill_success_format())
