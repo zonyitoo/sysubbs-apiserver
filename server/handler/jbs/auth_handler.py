@@ -30,7 +30,6 @@ class AuthHandler(jbsHandler):
         client_publickey = get_client_publickey_from_authorization()
         if not client_publickey:
             return make_response(fill_fail_format(err_code=request_data_format_error))
-        log_request(api_addr="deliver_server_publickey", request={'client_publickey': client_publickey})
         # generate a new login token
         login_token = gen_login_token()
         # store the new login token into redis
@@ -39,7 +38,9 @@ class AuthHandler(jbsHandler):
         response_value = {'login_token': login_token, 'server_publickey': self.app.config['SERVER_PUBLIC_KEY_PKCS1']}
         response = make_response(fill_success_format())
         response.headers['Authorization'] = json.dumps(response_value)
-        log_request(api_addr="deliver_server_publickey", response=response_value)
+        log_request(api_addr="deliver_server_publickey", 
+                request={'client_publickey': client_publickey},
+                response=response_value)
         return response
 
     def request_access_token(self):
