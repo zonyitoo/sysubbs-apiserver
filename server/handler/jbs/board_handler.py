@@ -27,7 +27,7 @@ class BoardHandler(jbsHandler):
 
     def get_board_info(self, boardname):
         ret = self.__processor__.get_board_info(boardname)
-        log_request(api_addr="get_board_info", response=ret)
+        log_request(api_addr="get_board_info", request={'boardname': boardname}, response=ret)
         if is_process_success(ret):
             return make_response(fill_success_format(ret))
         else:
@@ -35,7 +35,7 @@ class BoardHandler(jbsHandler):
 
     def get_all_boards_info_by_section_code(self, section_code):
         ret = self.__processor__.get_all_boards_info_by_section_code(section_code)
-        log_request(api_addr="get_all_boards_info_by_section_code", response=ret)
+        log_request(api_addr="get_all_boards_info_by_section_code", request={'section_code': section_code}, response=ret)
 
         if is_process_success(ret):
             return make_response(fill_success_format(ret))
@@ -44,7 +44,7 @@ class BoardHandler(jbsHandler):
 
     def clear_board_unread(self, boardname):
         ret = self.__processor__.clear_board_unread(boardname)
-        log_request(api_addr="clear_board_unread", response=ret)
+        log_request(api_addr="clear_board_unread", request={'boardname': boardname}, response=ret)
 
         if is_process_success(ret):
             return make_response(fill_success_format(ret))
