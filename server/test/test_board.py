@@ -33,8 +33,7 @@ def get_all_boards_info_by_section_code(seccode):
     resp = app.get(HOST + ('/info/by_section_code/%s/' % seccode))
     return json.loads(resp.data)
 
-def clear_board_unread(access_token, boardname):
-    #resp = requests.post(HOST + '/clear_board_unread/%s/' % boardname, headers=get_request_header(access_token))
+def clear_board_unread(access_token, boardname): #resp = requests.post(HOST + '/clear_board_unread/%s/' % boardname, headers=get_request_header(access_token))
     resp = app.post(HOST + '/clear_board_unread/%s/' % boardname, headers=get_request_header(access_token))
     return json.loads(resp.data)
 

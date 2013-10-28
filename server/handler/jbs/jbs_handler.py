@@ -2,6 +2,7 @@ from flask import request
 
 from server.basic.handler import Handler
 from server.basic.auth import get_cookie_from_authorization
+from server.logger import log_server, log_request
 
 exclude_check_cookie_api = ['request_access_token', 'deliver_server_publickey']
 
@@ -22,6 +23,7 @@ class jbsHandlerMixin(object):
         """
         if not is_in_exclude_url():
             cookie = get_cookie_from_authorization()
+            log_server(api_addr=request.url, msg="in set_cookie, cookie: %s" % str(cookie))
             if cookie and hasattr(self.__processor__, 'set_cookie'):
                 self.cookie = cookie
                 self.__processor__.set_cookie(cookie)

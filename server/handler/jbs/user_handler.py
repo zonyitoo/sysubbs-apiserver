@@ -34,6 +34,7 @@ class UserHandler(jbsHandler):
         if not data or ("username" not in data or "alias" not in data):
             return post_data_format_error()
         ret = self.__processor__.add_friend(**data)
+        log_request(api_addr='add_friend', request=data, response=ret)
         if is_process_success(ret):
             return make_response(fill_success_format())
         else:
@@ -49,6 +50,7 @@ class UserHandler(jbsHandler):
         if not data or "username" not in data:
             return post_data_format_error()
         ret = self.__processor__.del_friend(**data)
+        log_request(api_addr='del_friend', request=data, response=ret)
         if is_process_success(ret):
             return make_response(fill_success_format())
         else:
@@ -59,6 +61,7 @@ class UserHandler(jbsHandler):
         get the fav boards
         """
         ret = self.__processor__.get_fav_boards()
+        log_request(api_addr='get_fav_boards', response=ret)
         if is_process_success(ret):
             return make_response(fill_success_format(ret))
         else:
@@ -74,6 +77,7 @@ class UserHandler(jbsHandler):
         if not data or "boardname" not in data:
             return post_data_format_error()
         ret = self.__processor__.add_fav_board(**data)
+        log_request(api_addr='add_fav_board', request=data, response=ret)
         if is_process_success(ret):
             return make_response(fill_success_format())
         else:
@@ -89,6 +93,7 @@ class UserHandler(jbsHandler):
         if not data and "boardname" not in data:
             return post_data_format_error()
         ret = self.__processor__.del_fav_board(**data)
+        log_request(api_addr='del_fav_board', request=data, response=ret)
         if is_process_success(ret):
             return make_response(fill_success_format())
         else:
@@ -99,6 +104,7 @@ class UserHandler(jbsHandler):
         get user's info for 'username'
         """
         ret = self.__processor__.get_user_info(username)
+        log_request(api_addr='get_user_info/%s' % username, response=ret)
         if is_process_success(ret):
             return make_response(fill_success_format(ret))
         else:
@@ -121,6 +127,7 @@ class UserHandler(jbsHandler):
                     or "signature" not in data):
             return post_data_format_error()
         ret = self.__processor__.update_user_info(**data)
+        log_request(api_addr='update_user_info', request=data, response=ret)
         if is_process_success(ret):
             return make_response(fill_success_format())
         else:
@@ -132,8 +139,10 @@ class UserHandler(jbsHandler):
         post data:
             the new avatar binary data
         """
+        log_server(api_addr="update_user_avatar", msg="cookie: %s" % str(self.cookie))
         data = request.data
         ret = self.__processor__.update_user_avatar(data)
+        log_request(api_addr="update_user_avatar", response=ret)
         if is_process_success(ret):
             return make_response(fill_success_format())
         else:
@@ -144,6 +153,7 @@ class UserHandler(jbsHandler):
         get user avatar
         """
         ret = self.__processor__.get_user_avatar(username)
+        log_server(api_addr="get_user_avatar", msg="username is %s, avatar is None[%s]" % (username, ret is None))
         if ret:
             return make_response(ret)
         else:
