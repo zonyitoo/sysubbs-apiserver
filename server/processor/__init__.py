@@ -5,3 +5,4 @@ __description__ =  """
                     """
 
 from jbs import UserProcessor
+from jbs import SessionProcessor

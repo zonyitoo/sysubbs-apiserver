@@ -84,3 +84,20 @@ def fill_topic_content_object(index=0, id='', ownerid='', ownername='', title=''
 
 def fill_topic_reply_list_object(reply_list=[]):
     return dict(replies=reply_list)
+
+def fill_session_object(section_code, section_name):
+    """
+    Session Object:
+    {'section_code': section_code,
+     'section_name': section_name}
+    """
+    return dict(section_code=section_code, section_name=section_name)
+
+def fill_session_list_object(section_list):
+    """
+    Session List Object:
+    {'sessions':
+      [section_object, ...]
+    }
+    """
+    return dict(sessions=section_list)

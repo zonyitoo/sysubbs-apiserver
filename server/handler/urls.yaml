@@ -119,3 +119,10 @@ PostHandler:
         url: /delete/
         methods: [POST]
         require_auth: True
+
+SessionHandler:
+    url_prefix: /session
+
+    GetSessionList:
+        url: /get_session_list/
+        methods: [GET]

@@ -2,8 +2,8 @@ __description__ = """
                   Handlers for each part of API
                   """
 
-from server.logger import init_logger
 from server.basic.auth import require_auth
+from server.logger import init_logger
 init_logger()
 
 

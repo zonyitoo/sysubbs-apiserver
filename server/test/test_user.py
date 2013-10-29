@@ -6,14 +6,8 @@ logger = logging.getLogger()
 from test_basic import get_request_header, save_binary_content, get_binary_content
 from test_auth import *
 
-import sys
-sys.path.append('..')
-
 from server.app import init_app
 app = init_app().test_client()
-
-import os
-os.chdir(os.path.dirname(os.path.abspath(__file__)))
 
 HOST = "/user"
 
@@ -81,7 +75,7 @@ def get_user_avatar():
 
 def update_user_avatar(access_token):
     headers = get_request_header(access_token)
-    data = get_binary_content('avatar2.jpg')
+    data = get_binary_content('okone_avatar.jpg')
     resp = app.post(HOST + "/update_user_avatar/", data=data, headers=headers)
     return json.loads(resp.data)
 

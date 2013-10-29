@@ -65,3 +65,9 @@ jbs.post_handler.PostHandler:
             role: UpdatePost
         delete_post:
             role: DeletePost
+
+jbs.session_handler.SessionHandler:
+    role: SessionHandler
+    views:
+        get_session_list:
+            role: GetSessionList
