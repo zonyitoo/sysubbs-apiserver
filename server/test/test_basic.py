@@ -20,6 +20,13 @@ sys.path.append('..')
 from server.app import init_app
 app = init_app().test_client()
 
+import kaptan
+url_config = kaptan.Kaptan()
+url_config.import_config('handler/urls.yaml')
+
+def get_url_by_role(prefix, role):
+    return url_config.get(prefix)['url_prefix'] + url_config.get('%s.%s' % (prefix, role))['url']
+
 def __rsa128_encrypt_str(data, public_key):
     data_remain = data
     result = ''

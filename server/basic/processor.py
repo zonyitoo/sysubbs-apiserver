@@ -166,6 +166,18 @@ class BasicPostProcessor(Processor):
         """
         raise NotImplementedError()
 
+    def new_topic(self):
+        '''
+        New topic
+        '''
+        raise NotImplementedError()
+
+    def update_post(self):
+        '''
+        update
+        '''
+        raise NotImplementedError()
+
     def del_post(self):
         """
         delete a post
@@ -176,6 +188,12 @@ class BasicPostProcessor(Processor):
         """
         get a specific post content according
         to post's id
+        """
+        raise NotImplementedError()
+    def get_topic_content(self):
+        """
+        get a specific topic content according
+        to topic's id
         """
         raise NotImplementedError()
 

@@ -5,8 +5,6 @@ import time
 import base64
 import unittest
 
-from test_basic import HOST
-
 import sys
 sys.path.append('..')
 

@@ -1,5 +1,5 @@
 from test_auth import *
-from test_basic import HOST, get_request_header
+from test_basic import get_request_header
 import unittest
 import logging
 import json
@@ -11,7 +11,7 @@ sys.path.append('..')
 from server.app import init_app
 app = init_app().test_client()
 
-HOST = HOST + '/board'
+HOST = '/board'
 
 def get_all_boardname(access_token):
     #resp = requests.get(HOST + '/name/all/', headers=get_request_header(access_token))

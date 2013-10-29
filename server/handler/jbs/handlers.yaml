@@ -45,3 +45,23 @@ jbs.board_handler.BoardHandler:
             role: GetBoardsInfoBySectionCode
         clear_board_unread:
             role: ClearBoardUnread
+
+jbs.post_handler.PostHandler:
+    role: PostHandler
+    views:
+        get_board_topics_list:
+            role: GetBoardTopicsList
+        get_topic_all_reply:
+            role: GetTopicAllReply
+        get_topic_page_reply:
+            role: GetTopicPageReply
+        get_post_info:
+            role: GetPostInfo
+        reply_topic:
+            role: ReplyTopic
+        new_topic:
+            role: NewTopic
+        update_post:
+            role: UpdatePost
+        delete_post:
+            role: DeletePost

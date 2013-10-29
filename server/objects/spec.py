@@ -53,3 +53,34 @@ def fill_user_info_object(username="", nickname="", life_value=0, stay_time="",
     return dict(username=username, nickname=nickname, life_value=life_value, stay_time=stay_time,
             gender=gender, signature=signature, description=description, numposts=numposts)
 
+def fill_board_topic_object(index=0, id='', ownerid='', title='', total_reply=0, unread=False, marked=False):
+    return dict(
+            index=index,
+            id=id,
+            ownerid=ownerid,
+            title=title,
+            total_reply=total_reply,
+            unread=unread,
+            marked=marked
+        )
+
+def fill_board_topic_list_object(topic_list=[]):
+    return dict(topics=topic_list)
+
+def fill_topic_content_object(index=0, id='', ownerid='', ownername='', title='', 
+        boardname='', post_time=0, content='', signature='', bbsname=''):
+    return dict(
+            index=index,
+            id=id,
+            ownerid=ownerid,
+            ownername=ownername,
+            title=title,
+            boardname=boardname,
+            post_time=post_time,
+            content=content,
+            signature=signature,
+            bbsname=bbsname
+        )
+
+def fill_topic_reply_list_object(reply_list=[]):
+    return dict(replies=reply_list)

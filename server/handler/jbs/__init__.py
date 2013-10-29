@@ -6,4 +6,5 @@ __description__ = """
 from auth_handler import AuthHandler
 from user_handler import UserHandler
 from board_handler import BoardHandler
+from post_handler import PostHandler
 

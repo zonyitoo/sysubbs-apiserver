@@ -87,3 +87,35 @@ BoardHandler:
         url: /clear_board_unread/<boardname>/
         methods: [POST]
         require_auth: True
+
+PostHandler:
+    url_prefix: /post
+
+    GetBoardTopicsList:
+        url: /topic/in/<boardname>/<start>/
+        methods: [GET]
+    GetTopicAllReply:
+        url: /topic/replyto/<boardname>/<topicid>/
+        methods: [GET]
+    GetTopicPageReply:
+        url: /topic/replyto/<boardname>/<topicid>/<page>/
+        methods: [GET]
+    GetPostInfo:
+        url: /info/<boardname>/<topicid>/
+        methods: [GET]
+    ReplyTopic:
+        url: /reply/
+        methods: [POST]
+        require_auth: True
+    NewTopic:
+        url: /new/
+        methods: [POST]
+        require_auth: True
+    UpdatePost:
+        url: /update/
+        methods: [POST]
+        require_auth: True
+    DeletePost:
+        url: /delete/
+        methods: [POST]
+        require_auth: True
