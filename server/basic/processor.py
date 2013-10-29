@@ -197,7 +197,7 @@ class BasicPostProcessor(Processor):
         """
         raise NotImplementedError()
 
-class BasicMailProcess(Processor):
+class BasicMailProcessor(Processor):
     def get_mailbox_info(self):
         """
         get the mailbox's information, for example,
