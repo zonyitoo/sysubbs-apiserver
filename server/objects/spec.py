@@ -67,6 +67,9 @@ def fill_board_topic_object(index=0, id='', ownerid='', title='', total_reply=0,
 def fill_board_topic_list_object(topic_list=[]):
     return dict(topics=topic_list)
 
+def fill_board_name_list_object(namelist=[]):
+    return dict(boards=namelist)
+
 def fill_topic_content_object(index=0, id='', ownerid='', ownername='', title='', 
         boardname='', post_time=0, content='', signature='', bbsname=''):
     return dict(
