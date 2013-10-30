@@ -6,6 +6,7 @@ from jbs_handler import jbsHandler
 from server.logger import log_server, log_request
 from server.basic.auth import *
 from server.basic.code import *
+import base64
 
 class PostHandler(jbsHandler):
     __handler_name__ = 'jbspost'
@@ -97,7 +98,7 @@ class PostHandler(jbsHandler):
             'id': `id` of a topic that you want to reply,
             'title': title,
             'content': content,
-            'attachment': attachment,
+            'attachment': attachment (attachment should be binary encoded by base64),
         }
         response: if success, it will return a `id` of reply in this format
         {
@@ -108,9 +109,15 @@ class PostHandler(jbsHandler):
         if not data or 'boardname' not in data\
             or 'id' not in data\
             or 'title' not in data\
-            or 'content' not in data\
-            or 'attachment' not in data:
+            or 'content' not in data:
                 return post_data_format_error()
+
+        try:
+            if 'attachment' in data and data['attachment']:
+                data['attachment'] = base64.decodestring(data['attachment'])
+        except:
+            log_request(api_addr='reply_topic', level='error', request=data)
+            return post_data_format_error()
 
         ret = self.__processor__.reply_topic(**data)
         log_request(api_addr='reply_topic', request=data, response=ret)
@@ -128,7 +135,7 @@ class PostHandler(jbsHandler):
             'boardname': board's name,
             'title': title,
             'content': content,
-            'attachment': attachment,
+            'attachment': attachment (attachment should be binary encoded by base64),
         }
         response: if success, it will return the `id` of new post in this format
         {
@@ -138,9 +145,15 @@ class PostHandler(jbsHandler):
         data = get_json_post_data()
         if not data or 'boardname' not in data\
             or 'title' not in data\
-            or 'content' not in data\
-            or 'attachment' not in data:
+            or 'content' not in data:
                 return post_data_format_error()
+
+        try:
+            if 'attachment' in data and data['attachment']:
+                data['attachment'] = base64.decodestring(data['attachment'])
+        except:
+            log_request(api_addr='new_topic', level='error', request=data)
+            return post_data_format_error()
 
         ret = self.__processor__.new_topic(**data)
         log_request(api_addr='new_topic', request=data, response=ret)
@@ -160,7 +173,7 @@ class PostHandler(jbsHandler):
             'id': post's `id`,
             'title': title,
             'content': content,
-            'attachment': attachment,
+            'attachment': attachment (attachment should be binary encoded by base64),
         }
         response: if success, it will return the `id` of post in this format
         {
@@ -171,9 +184,15 @@ class PostHandler(jbsHandler):
         if not data or 'boardname' not in data\
             or 'id' not in data\
             or 'title' not in data\
-            or 'content' not in data\
-            or 'attachment' not in data:
+            or 'content' not in data:
                 return post_data_format_error()
+    
+        try:
+            if 'attachment' in data and data['attachment']:
+                data['attachment'] = base64.decodestring(data['attachment'])
+        except:
+            log_request(api_addr='update_post', level='error', request=data)
+            return post_data_format_error()
 
         ret = self.__processor__.update_post(**data)
         log_request(api_addr='update_post', request=data, response=ret)
