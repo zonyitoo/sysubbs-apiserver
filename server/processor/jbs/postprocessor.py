@@ -3,6 +3,8 @@ from jbsprocess import jbsProcessorMixin
 import requests
 from urls import *
 from postformatter import *
+import StringIO
+from server.logger import log_server, log_request
 
 class PostProcessor(BasicPostProcessor, jbsProcessorMixin):
     """
@@ -64,36 +66,45 @@ class PostProcessor(BasicPostProcessor, jbsProcessorMixin):
         '''
         Helper for adding post
         '''
+        if attach:
+            attach = StringIO.StringIO(attach)
+
         if post_type == 'reply':
             r = requests.post(add_post_site, cookies=self.cookie, data={'type': post_type, 'boardname': boardname, 
-                'articleid': topic_id, 'title': title, 'content': content})
+                'articleid': topic_id, 'title': title, 'content': content}, 
+                files=({'attach': attach} if attach else None))
         elif post_type == 'new':
             r = requests.post(add_post_site, cookies=self.cookie, data={'type': post_type, 'boardname': boardname, 
-                'title': title, 'content': content})
+                'title': title, 'content': content}, 
+                files=({'attach': attach} if attach else None))
         elif post_type == 'update':
             r = requests.post(add_post_site, cookies=self.cookie, data={'type': post_type, 'boardname': boardname, 
-                'articleid': topic_id, 'title': title, 'content': content})
+                'articleid': topic_id, 'title': title, 'content': content}, 
+                files=({'attach': attach} if attach else None))
         else:
             raise ValueError('Invalid post_type %s' % post_type)
 
+        log_server('add_post %s: %s' % (post_type, r.text))
+        # FIXME: Send a post with attachment will response 502 error
+        #        Don't know why. ISSUE #10
         resp = r.json()
         if resp['success']:
             return {'id': resp['data']}
         return resp['code']
 
-    def reply_topic(self, boardname, id, title, content, attachment):
+    def reply_topic(self, boardname, id, title, content, attachment=None):
         """
         reply a post
         """
         return self.__add_post('reply', boardname, id, title, content, attachment)
 
-    def new_topic(self, boardname, title, content, attachment):
+    def new_topic(self, boardname, title, content, attachment=None):
         '''
         New topic
         '''
         return self.__add_post('new', boardname, None, title, content, attachment)
 
-    def update_post(self, boardname, id, title, content, attachment):
+    def update_post(self, boardname, id, title, content, attachment=None):
         '''
         update topic
         '''
@@ -122,6 +133,6 @@ class PostProcessor(BasicPostProcessor, jbsProcessorMixin):
 
         return resp['code']
 
-    def get_topic_content(self, topic_id):
-        return self.get_post_content(topic_id)
+    def get_topic_content(self, boardname, topic_id):
+        return self.get_post_content(boardname, topic_id)
 
