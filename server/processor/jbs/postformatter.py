@@ -50,5 +50,17 @@ class TopicContentFormatter(BasicFormatter):
                     post_time=data['post_time'],
                     content=data['rawcontent'],
                     signature=data['rawsignature'],
-                    bbsname=data['bbsname']
+                    bbsname=data['bbsname'],
+                    perm_del=bool(data['perm_del']),
+                    attachments=[
+                            fill_post_attachment_object(
+                                    id=ah['filename'],
+                                    origname=ah['origname'],
+                                    mimetype=ah['desc'],
+                                    filetype=ah['filetype'],
+                                    post_id=ah['articleid'],
+                                    link='http://bbs.sysu.edu.cn' + ah['link'],
+                                )
+                            for ah in data['ah']
+                        ]
                 )

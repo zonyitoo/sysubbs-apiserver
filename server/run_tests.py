@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-from test.test_auth import TestAuth
+#from test.test_auth import TestAuth
 from test.test_board import TestBoard
 from test.test_user import TestUser
 from test.test_post import TestPost
