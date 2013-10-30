@@ -133,6 +133,6 @@ class PostProcessor(BasicPostProcessor, jbsProcessorMixin):
 
         return resp['code']
 
-    def get_topic_content(self, topic_id):
-        return self.get_post_content(topic_id)
+    def get_topic_content(self, boardname, topic_id):
+        return self.get_post_content(boardname, topic_id)
 

@@ -37,9 +37,9 @@ class TestPost(BaseTestCase):
                 )
         self.assertTrue(json.loads(ret.data)['success'])
 
-    def del_topic(self, topic_id):
+    def del_topic(self, boardname, topic_id):
         data = {
-            'boardname': 'water',
+            'boardname': boardname,
             'id': topic_id,
         }
         ret = self.client.post(
@@ -67,11 +67,11 @@ class TestPost(BaseTestCase):
         delid = json.loads(ret.data)['data']['id']
         import time
         time.sleep(10)
-        self.del_topic(delid)
+        self.del_topic(boardname, delid)
 
     def test_POST_topic(self):
         data = {
-            'boardname': 'Water',
+            'boardname': 'water',
             'title': 'TestNewPost',
             'content': "From API Server Team. Testing New Post. Don't Panic.",
             'attachment': None
@@ -88,6 +88,7 @@ class TestPost(BaseTestCase):
         import time
         topic_id = retdata['data']['id']
         time.sleep(10)
+        self.get_post_info(data['boardname'], topic_id)
 
         self.reply_topic(data['boardname'], topic_id)
 
@@ -106,11 +107,11 @@ class TestPost(BaseTestCase):
         self.assertTrue(retdata['success'])
 
         self.assertEqual(retdata['data']['id'], topic_id)
-
-        time.sleep(10)
         self.get_post_info(data['boardname'], topic_id)
 
-        self.del_topic(topic_id)
+        time.sleep(10)
+
+        self.del_topic(data['boardname'], topic_id)
         
 if __name__ == '__main__':
     unittest.main()
