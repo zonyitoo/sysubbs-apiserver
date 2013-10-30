@@ -30,10 +30,10 @@ if __name__ == '__main__':
     get_mailbox_data = get_mailbox_info(cookie)
     print "get_mailbox_info, response: %s" % get_mailbox_data
 
-    get_maillist_data = get_maillist(cookie, 0)
+    get_maillist_data = get_maillist(cookie, 10)
     print "get_maillist_data, response: %s" % get_maillist_data
 
-    get_mail_content_data = get_mail_content(cookie, 3)
+    get_mail_content_data = get_mail_content(cookie, 2)
     print "get_mail_content_data, response: %s" % get_mail_content_data
 
     send_mail_data = send_mail(cookie, 'test', 'test jsbbs api', 'zhongyut')

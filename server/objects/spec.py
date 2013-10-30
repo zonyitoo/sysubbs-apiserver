@@ -104,8 +104,8 @@ def fill_session_list_object(section_list):
 
 def fill_mail_content_object(id, title, send_time, content, sender, is_reply, is_read):
     """
-    Mail Object
-    {'id': mail_id, 'title': title, 'send_time': 02月09日 09:17(in chiniese),
+    Mail Content Object
+    {'id': mail_id, 'title': title, 'send_time': timestamp,
      'content': mail_content, 'sender': sender, 'is_reply': is_reply,
      'is_read': is_read}
     """
@@ -115,7 +115,7 @@ def fill_mail_content_object(id, title, send_time, content, sender, is_reply, is
 def fill_mail_list_entry_object(id, title, send_time, sender, is_reply, is_read):
     """
     Mail List Entry Object
-    {'id': mail_id, 'title': title, 'send_time': send_time('2012 Jul 07 00:04'), 'is_reply': is_reply,
+    {'id': mail_id, 'title': title, 'send_time': timestamp, 'is_reply': is_reply,
     'is_read': is_read}
     """
     return dict(id=id, title=title, send_time=send_time, sender=sender, is_reply=is_reply,
@@ -128,9 +128,9 @@ def fill_mail_list_object(mails):
     """
     return dict(mails=mails)
 
-def fill_mail_box_objects(mail_num, unread_num):
+def fill_mail_box_objects(mail_num):
     """
     Mail Box Object
-    {'mail_num': mail_num, "unread_num": unread_num}
+    {'mail_num': mail_num}
     """
-    return dict(mail_num=mail_num, unread_num=unread_num)
+    return dict(mail_num=mail_num)

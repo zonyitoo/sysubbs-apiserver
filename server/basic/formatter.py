@@ -19,6 +19,11 @@ class BasicFormatter(object):
         else:
             self.raw_data = raw_data
 
+    def set_raw_data(self, data):
+        """
+        directly set the raw data
+        """
+        self.raw_data = data
 
     def format(self):
         """
@@ -47,4 +52,3 @@ def fill_fail_format(err_msg='', err_code=000):
         return json.dumps(dict(success=False, errMsg=err_msg, errCode=err_code))
     else:
         return json.dumps(dict(success=False, errCode=err_code))
-
