@@ -13,7 +13,7 @@ class BoardNamesListFormatter(BasicFormatter):
         {'boards': ['boardname1', 'boardname2', ...]}
     """
     def format(self):
-        return {'boards': self.raw_data}
+        return fill_board_name_list_object(self.raw_data)
 
 class AllSectionBoardInfoListFormatter(BasicFormatter):
     """

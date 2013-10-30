@@ -67,8 +67,11 @@ def fill_board_topic_object(index=0, id='', ownerid='', title='', total_reply=0,
 def fill_board_topic_list_object(topic_list=[]):
     return dict(topics=topic_list)
 
+def fill_board_name_list_object(namelist=[]):
+    return dict(boards=namelist)
+
 def fill_topic_content_object(index=0, id='', ownerid='', ownername='', title='', 
-        boardname='', post_time=0, content='', signature='', bbsname=''):
+        boardname='', post_time=0, content='', signature='', bbsname='', perm_del=False, attachments=[]):
     return dict(
             index=index,
             id=id,
@@ -79,11 +82,23 @@ def fill_topic_content_object(index=0, id='', ownerid='', ownername='', title=''
             post_time=post_time,
             content=content,
             signature=signature,
-            bbsname=bbsname
+            bbsname=bbsname,
+            perm_del=False,
+            attachments=attachments
         )
 
 def fill_topic_reply_list_object(reply_list=[]):
     return dict(replies=reply_list)
+
+def fill_post_attachment_object(id='', origname='', mimetype='', filetype='', post_id='', url=''):
+    return dict(
+            id=id,
+            origname=origname,
+            mimetype=mimetype,
+            filetype=filetype,
+            post_id=post_id,
+            url=url
+        )
 
 def fill_session_object(section_code, section_name):
     """
