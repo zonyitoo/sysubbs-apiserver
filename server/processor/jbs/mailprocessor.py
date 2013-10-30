@@ -15,7 +15,6 @@ class MailProcessor(BasicMailProcessor, jbsProcessorMixin):
         Returns:
             mail_box_object
         """
-        # get the total mail number
         r = requests.get(get_mailbox_info_site, cookies=cookies)
         resp = r.json()
         if resp['success']:
@@ -36,7 +35,7 @@ class MailProcessor(BasicMailProcessor, jbsProcessorMixin):
         Returns:
             mail_list_object
         """
-        r = requests.get(get_maillist_info_site, cookies=cookies, params={'start': offset})
+        r = requests.get(get_maillist_info_site, cookies=self.cookie, params={'start': offset})
         resp = r.json()
         if resp['success']:
             data = resp['data']
@@ -55,7 +54,7 @@ class MailProcessor(BasicMailProcessor, jbsProcessorMixin):
         Returns:
             mail_content_object
         """
-        r = requests.get(get_mail_content_site, cookies=cookies, params={'index': mail_id})
+        r = requests.get(get_mail_content_site, cookies=self.cookie, params={'index': mail_id})
         resp = r.json()
         if resp['success']:
             data = resp['data']
@@ -77,7 +76,7 @@ class MailProcessor(BasicMailProcessor, jbsProcessorMixin):
             True, if send success,
             or err_code if fail
         """
-        r = requests.post(send_mail_site, cookies=cookies, data={'title': title, 'content': content, 'receiver': receiver})
+        r = requests.post(send_mail_site, cookies=self.cookie, data={'title': title, 'content': content, 'receiver': receiver})
         resp = r.json()
         if resp['success']:
             return True
@@ -95,7 +94,7 @@ class MailProcessor(BasicMailProcessor, jbsProcessorMixin):
             True, if delete success, or
             err_code if delete fail
         """
-        r = requests.post(del_mail_site, cookies=cookies, data={'indexes': id_list})
+        r = requests.post(del_mail_site, cookies=self.cookie, data={'indexes': id_list})
         resp = r.json()
         if resp['success']:
             return True

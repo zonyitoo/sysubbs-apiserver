@@ -1,12 +1,11 @@
 import requests
 
 from server.basic import BasicSessionProcessor
-from jbsprocess import jbsProcessorMixin
 from urls import *
 from server.basic.formatter import fill_fail_format, fill_success_format
 from sessionformatter import SessionListFormatter
 
-class SessionProcessor(BasicSessionProcessor, jbsProcessorMixin):
+class SessionProcessor(BasicSessionProcessor):
     def get_session_list(self):
         """
         get all sessions

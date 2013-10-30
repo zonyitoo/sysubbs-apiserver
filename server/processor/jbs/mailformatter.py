@@ -4,7 +4,7 @@ import datetime
 import time
 
 from server.basic import BasicFormatter
-from server.spec.objects import fill_mail_content_object, fill_mail_list_entry_object, \
+from server.objects.spec import fill_mail_content_object, fill_mail_list_entry_object, \
         fill_mail_list_object, fill_mail_box_objects
 
 class MailBoxFormatter(BasicFormatter):
@@ -26,7 +26,7 @@ class MailListFormatter(BasicFormatter):
                 ]
         return fill_mail_list_object(mails=mails)
 
-class MailContentFormatter(BasciFormatter):
+class MailContentFormatter(BasicFormatter):
     def format(self):
         return fill_mail_content_object(
                 id=self.raw_data['index'],

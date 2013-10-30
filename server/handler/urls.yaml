@@ -126,3 +126,31 @@ SessionHandler:
     GetSessionList:
         url: /get_session_list/
         methods: [GET]
+
+MailHandler:
+    url_prefix: /mail
+
+    GetMailBoxInfo:
+        url: /get_mail_box_info/
+        methods: [GET]
+        require_auth: True
+
+    GetMailList:
+        url: /get_mail_list/<int:offset>/
+        methods: [GET]
+        require_auth: True
+
+    GetMailInfo:
+        url: /get_mail_info/<mail_id>/
+        methods: [GET]
+        require_auth: True
+
+    SendMail:
+        url: /send_mail/
+        methods: [POST]
+        require_auth: True
+
+    DelMail:
+        url: /del_mail/
+        methods: [POST]
+        require_auth: True
