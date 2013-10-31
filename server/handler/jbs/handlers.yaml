@@ -71,3 +71,23 @@ jbs.session_handler.SessionHandler:
     views:
         get_session_list:
             role: GetSessionList
+
+jbs.mail_handler.MailHandler:
+    role: MailHandler
+
+    views:
+        get_mail_box_info:
+            role: GetMailBoxInfo
+            require_auth: True
+        get_mail_list:
+            role: GetMailList
+            require_auth: True
+        get_mail_info:
+            role: GetMailInfo
+            require_auth: True
+        send_mail:
+            role: SendMail
+            require_auth: True
+        del_mail:
+            role: DelMail
+            require_auth: True

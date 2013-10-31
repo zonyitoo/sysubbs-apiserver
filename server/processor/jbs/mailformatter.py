@@ -38,7 +38,7 @@ class MailContentFormatter(BasicFormatter):
                 is_read=int(self.raw_data['flag']) > 0 and True or False
                 )
 
-def format_mail_time(time):
+def format_mail_time(t):
     """
     format mail 'filetime' into timestamp
     """
@@ -46,10 +46,11 @@ def format_mail_time(time):
         # first try to format eng_time:
         # 2012 Dec 07 21:51
         locale.setlocale(locale.LC_TIME, "en_US.UTF8")
-        eng_datetime = datetime.datetime.strptime(eng_time, "%Y %b %d %H:%M")
+        eng_datetime = datetime.datetime.strptime(t, "%Y %b %d %H:%M")
         return time.mktime(eng_datetime.timetuple())
     except:
         # then try to format chn_time
         # 02月09日 09:17
-        chn_datetime = datetime.strptime(chn_time.encode('gbk'), '%m\xd4\xc2%d\xc8\xd5 %H:%M')
-        return time.mktime(chn_time.timetuple)
+        chn_datetime = datetime.datetime.strptime(t.encode('gbk'), '%m\xd4\xc2%d\xc8\xd5 %H:%M')
+        chn_datetime = chn_datetime.replace(year=datetime.datetime.today().year)
+        return time.mktime(chn_datetime.timetuple())

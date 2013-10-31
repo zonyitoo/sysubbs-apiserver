@@ -17,7 +17,12 @@ class MailHandler(jbsHandler):
         methods: GET
         response: mail_box_object
         """
-        pass
+        ret = self.__processor__.get_mailbox_info()
+        log_request(api_addr='get_mail_box_info', response=ret)
+        if is_process_success(ret):
+            return make_response(fill_success_format(ret))
+        else:
+            return make_response(fill_fail_format(ret))
 
     def get_mail_list(self, offset):
         """
@@ -25,7 +30,12 @@ class MailHandler(jbsHandler):
         methods: GET
         response: mail_list_object
         """
-        pass
+        ret = self.__processor__.get_mail_list(offset)
+        log_request(api_addr='get_mail_list', request="offset: %s" % offset, response=ret)
+        if is_process_success(ret):
+            return make_response(fill_success_format(ret))
+        else:
+            return make_response(fill_fail_format(ret))
 
     def get_mail_info(self, mail_id):
         """
@@ -34,11 +44,17 @@ class MailHandler(jbsHandler):
         methods: GET
         response: mail_content_object
         """
-        pass
+        log_request(api_addr='get_mail_info', request="mail_id: %s" % mail_id)
+        ret = self.__processor__.get_mail_info(mail_id)
+        log_request(api_addr='get_mail_info', request="mail_id: %s" % mail_id, response=ret)
+        if is_process_success(ret):
+            return make_response(fill_success_format(ret))
+        else:
+            return make_response(fill_fail_format(ret))
 
     def send_mail(self):
         """
-        send mail!
+        send mail =w=
         methods: POST
         Post data format:
             {'title': mail_title,
@@ -46,7 +62,19 @@ class MailHandler(jbsHandler):
              'receiver': receiver_username}
         response: True or err_code
         """
-        pass
+        data = get_json_post_data()
+        log_request(api_addr='send_mail', request=data)
+        if not data or (
+                'title' not in data or \
+                'content' not in data or \
+                'receiver' not in data):
+            return post_data_format_error()
+        ret = self.__processor__.send_mail(**data)
+        log_request(api_addr='send_mail', response=ret)
+        if is_process_success(ret):
+            return make_response(fill_success_format())
+        else:
+            return make_response(fill_fail_format(ret))
 
     def del_mail(self):
         """
@@ -57,4 +85,10 @@ class MailHandler(jbsHandler):
             [id1, id2, id3, ....]}
         response: True or err_code
         """
-        pass
+        data = get_json_post_data()
+        log_request(api_addr='del_mail', request=data)
+        ret = self.__processor__.del_mail(data['mails'])
+        if is_process_success(ret):
+            return make_response(fill_success_format())
+        else:
+            return make_response(fill_fail_format())

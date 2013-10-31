@@ -136,7 +136,7 @@ MailHandler:
         require_auth: True
 
     GetMailList:
-        url: /get_mail_list/<int:offset>/
+        url: /get_mail_list/<offset>/
         methods: [GET]
         require_auth: True
 

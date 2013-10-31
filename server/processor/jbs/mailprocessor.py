@@ -15,7 +15,7 @@ class MailProcessor(BasicMailProcessor, jbsProcessorMixin):
         Returns:
             mail_box_object
         """
-        r = requests.get(get_mailbox_info_site, cookies=cookies)
+        r = requests.get(get_mailbox_info_site, cookies=self.cookie)
         resp = r.json()
         if resp['success']:
             data = resp['data']
