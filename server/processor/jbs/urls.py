@@ -64,3 +64,10 @@ get_maillist_info_site = host + "/ajax/mail/list/"
 get_mail_content_site = host + "/ajax/mail/get/"
 send_mail_site = host + "/ajax/mail/send/"
 del_mail_site = host + "/ajax/mail/del/"
+
+"""
+misc
+"""
+get_my_topic_site = "http://bbs.sysu.edu.cn/ajax/v2/post/mine"
+get_first_post_by_topicid_site = "http://bbs.sysu.edu.cn/ajax/v2/post/topicinfo"
+get_new_topic_site = "http://bbs.sysu.edu.cn/ajax/v2/top/topic"
