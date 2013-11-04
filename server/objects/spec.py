@@ -53,9 +53,9 @@ def fill_user_info_object(username="", nickname="", life_value=0, stay_time="",
     return dict(username=username, nickname=nickname, life_value=life_value, stay_time=stay_time,
             gender=gender, signature=signature, description=description, numposts=numposts)
 
-def fill_board_topic_object(index=0, id='', ownerid='', title='', total_reply=0, unread=False, marked=False):
+def fill_board_topic_object(offset=0, id='', ownerid='', title='', total_reply=0, unread=False, marked=''):
     return dict(
-            index=index,
+            offset=offset,
             id=id,
             ownerid=ownerid,
             title=title,
@@ -70,10 +70,10 @@ def fill_board_topic_list_object(topic_list=[]):
 def fill_board_name_list_object(namelist=[]):
     return dict(boards=namelist)
 
-def fill_topic_content_object(index=0, id='', ownerid='', ownername='', title='', 
+def fill_topic_content_object(offset=0, id='', ownerid='', ownername='', title='', 
         boardname='', post_time=0, content='', signature='', bbsname='', perm_del=False, attachments=[]):
     return dict(
-            index=index,
+            offset=offset,
             id=id,
             ownerid=ownerid,
             ownername=ownername,
@@ -83,7 +83,7 @@ def fill_topic_content_object(index=0, id='', ownerid='', ownername='', title=''
             content=content,
             signature=signature,
             bbsname=bbsname,
-            perm_del=False,
+            perm_del=perm_del,
             attachments=attachments
         )
 

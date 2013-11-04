@@ -15,13 +15,13 @@ class TopicListFormatter(BasicFormatter):
     def format(self):
         topics = [
                 fill_board_topic_object(
-                        index=topic['index'],
+                        offset=topic['index'],
                         id=topic['filename'],
                         ownerid=topic['owner'],
                         title=topic['title'],
                         total_reply=topic['total_reply'],
                         unread=bool(topic['unread']),
-                        marked=bool(topic['mark'])
+                        marked=topic['mark']
                     )
                 for topic in self.raw_data
             ]
@@ -41,7 +41,7 @@ class TopicContentFormatter(BasicFormatter):
     def format(self):
         data = self.raw_data
         return fill_topic_content_object(
-                    index=data['index'],
+                    offset=data['index'],
                     id=data['filename'],
                     ownerid=data['userid'],
                     ownername=data['username'],
