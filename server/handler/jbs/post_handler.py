@@ -12,7 +12,7 @@ class PostHandler(jbsHandler):
     __handler_name__ = 'jbspost'
     __processor__ = PostProcessor()
 
-    def get_board_topics_list(self, start, boardname):
+    def get_board_topics_list(self, offset, boardname):
         '''
         Get topic list in a specific board, which is older than the topic with `start` index
         param: 
@@ -22,7 +22,7 @@ class PostHandler(jbsHandler):
         response:
             A list of topics' header infomation. Max 20.
         '''
-        ret = self.__processor__.get_board_topics_list(start, boardname)
+        ret = self.__processor__.get_board_topics_list(offset, boardname)
         log_request(api_addr='get_board_topics_list', 
                 request={'boardname': boardname}, response=ret)
         if is_process_success(ret):

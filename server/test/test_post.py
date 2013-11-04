@@ -19,16 +19,16 @@ class TestPost(BaseTestCase):
         self.assertTrue(json.loads(ret.data)['success'])
     def test_get_topic_all_reply(self):
         ret = self.client.get(
-                        '/post/topic/replyto/%s/%s/' % ('water', 'M.1382971850.A'),
+                        '/post/topic/replyto/%s/%s/' % ('water', 'M.1383267232.A'),
                     )
         self.assertTrue(json.loads(ret.data)['success'])
     def test_get_topic_page_reply(self):
         ret = self.client.get(
-                    '/post/topic/replyto/%s/%s/%s/' % ('water', 'M.1382971850.A', 1),
+                    '/post/topic/replyto/%s/%s/%s/' % ('water', 'M.1383267232.A', 1),
                 )
         self.assertTrue(json.loads(ret.data)['success'])
         ret = self.client.get(
-                    '/post/topic/replyto/%s/%s/%s/' % ('water', 'M.1382971850.A', 0),
+                    '/post/topic/replyto/%s/%s/%s/' % ('water', 'M.1383267232.A', 0),
                 )
         self.assertTrue(json.loads(ret.data)['success'])
     def get_post_info(self, boardname, filename):

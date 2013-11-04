@@ -92,7 +92,7 @@ PostHandler:
     url_prefix: /post
 
     GetBoardTopicsList:
-        url: /topic/in/<boardname>/<start>/
+        url: /topic/in/<boardname>/<offset>/
         methods: [GET]
     GetTopicAllReply:
         url: /topic/replyto/<boardname>/<topicid>/
