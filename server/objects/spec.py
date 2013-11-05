@@ -53,7 +53,7 @@ def fill_user_info_object(username="", nickname="", life_value=0, stay_time="",
     return dict(username=username, nickname=nickname, life_value=life_value, stay_time=stay_time,
             gender=gender, signature=signature, description=description, numposts=numposts)
 
-def fill_board_topic_object(offset=0, id='', ownerid='', title='', total_reply=0, unread=False, marked=''):
+def fill_board_topic_object(offset=0, id='', ownerid='', title='', total_reply=0, unread=False, post_time=0):
     return dict(
             offset=offset,
             id=id,
@@ -61,6 +61,7 @@ def fill_board_topic_object(offset=0, id='', ownerid='', title='', total_reply=0
             title=title,
             total_reply=total_reply,
             unread=unread,
+            post_time=post_time
         )
 
 def fill_board_topic_list_object(topic_list=[]):

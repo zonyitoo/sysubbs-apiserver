@@ -40,36 +40,36 @@ if __name__ == '__main__':
     login_data = login('okone', '8612001')
     cookie = login_data['cookie']
 
-#    get_board_posts_data = get_board_posts(0, 'water')
-    #print "get_board_posts, response: %s" % get_board_posts_data
-#    print
+    get_board_posts_data = get_board_posts(0, 'water')
+   #print "get_board_posts, response: %s" % get_board_posts_data
+    print
 
-#    get_post_content_data = get_post_content('water', 'M.1382569831.A')
-    #print "get_post_content, response: %s" % get_post_content_data
-#    print
+    get_post_content_data = get_post_content('water', 'M.1382569831.A')
+   #print "get_post_content, response: %s" % get_post_content_data
+    print
 
-#    get_near_post_data = get_near_post('water', 'prev', 'M.1380338285.A')
-#    print "get_near_post_data, response: %s" % get_near_post_data
+    get_near_post_data = get_near_post('water', 'prev', 'M.1380338285.A')
+    print "get_near_post_data, response: %s" % get_near_post_data
 
-#    get_same_topic_posts_data = get_same_topic_posts('water', 'M.1380338285.A')
-#    print "get_same_topic_posts, response: %s" % get_same_topic_posts_data
+    get_same_topic_posts_data = get_same_topic_posts('water', 'M.1380338285.A')
+    print "get_same_topic_posts, response: %s" % get_same_topic_posts_data
 
-    add_post_data = add_post(cookie, 'water', 'reply', 'M.1379573532.A', 'Re: 2', 'test', None)
-    print "add_post, response: %s" % add_post_data
+    #add_post_data = add_post(cookie, 'water', 'reply', 'M.1379573532.A', 'Re: 2', 'test', None)
+    #print "add_post, response: %s" % add_post_data
 
-    import time
-    time.sleep(10)
+    #import time
+    #time.sleep(10)
 
-    add_post_data = add_post(cookie, 'water', 'update', add_post_data['data'], 'Re: 2', 'test modified', None)
-    print "add_post, response: %s" % add_post_data
+    #add_post_data = add_post(cookie, 'water', 'update', add_post_data['data'], 'Re: 2', 'test modified', None)
+    #print "add_post, response: %s" % add_post_data
 
-    del_post_data = del_post(cookie, 'water', add_post_data['data'])
-    print "del_post, response: %s" % del_post_data
+    #del_post_data = del_post(cookie, 'water', add_post_data['data'])
+    #print "del_post, response: %s" % del_post_data
 
-    time.sleep(10)
+    #time.sleep(10)
 
-    add_post_data = add_post(cookie, 'water', 'new', None, 'Re: 2', 'test', None)
-    print "add_post, response: %s" % add_post_data
+    #add_post_data = add_post(cookie, 'water', 'new', None, 'Re: 2', 'test', None)
+    #print "add_post, response: %s" % add_post_data
 
-    del_post_data = del_post(cookie, 'water', add_post_data['data'])
-    print "add_post, response: %s" % add_post_data
+    #del_post_data = del_post(cookie, 'water', add_post_data['data'])
+    #print "add_post, response: %s" % add_post_data
