@@ -3,24 +3,58 @@ import requests
 from server.basic.formatter import fill_fail_format, fill_success_format
 from server.basic.processor import BasicProcessor
 from jbsprocess import jbsProcessorMixin
+from miscformatter import TopicFormatter, TopicListFormatter
 
 class MiscProcessor(BasicProcessor, jbsProcessorMixin):
     def get_my_topic(self):
         """
         get my topics
+
+        Returns:
+            Board Topic List Object
         """
         r = requests.get(get_my_topic_site, cookies=self.cookie)
-        pass
+        resp = r.json()
+        items = resp['items']
 
-    def get_new_topic(self, offset):
+        topics = []
+        for topic in items:
+            topic_id = topic['topicid']
+            topic = self.__get_first_post_by_topic_id(topic_id)
+            topic = TopicFormatter(topic).format()
+            topics.append(topic)
+
+        formatter = TopicListFormatter(topics)
+        return formatter.format()
+
+    def get_new_topic(self, offset=0):
         """
         get the newest topics
+
+        Returns:
+            Board List Object
         """
-        pass
+        r = requests.get(get_new_topic_site, params={'offset': offset})
+        resp = r.json()
+
+        items = resp['items'].values()
+        topics = []
+        for topic in items:
+            topic_id = topic['topicid']
+            topic = TopicFormatter(topic).format()
+            topics.append(topic)
+
+        formatter = TopicListFormatter(topics)
+        return formatter.format()
 
     def __get_first_post_by_topic_id(self, topic_id):
         """
         get the first post according to the topic id
         return a board_topic_object
         """
-        pass
+        r = requests.get(get_first_post_by_topicid_site, params={'filename': '', 'boardname': '', 'topicid': topic_id})
+        resp = r.json()
+        if resp['data']:
+            return resp['data']
+        else:
+            return None

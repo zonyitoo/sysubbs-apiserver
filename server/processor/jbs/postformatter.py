@@ -21,7 +21,6 @@ class TopicListFormatter(BasicFormatter):
                         title=topic['title'],
                         total_reply=topic['total_reply'],
                         unread=bool(topic['unread']),
-                        marked=topic['mark']
                     )
                 for topic in self.raw_data
             ]

@@ -61,7 +61,6 @@ def fill_board_topic_object(offset=0, id='', ownerid='', title='', total_reply=0
             title=title,
             total_reply=total_reply,
             unread=unread,
-            marked=marked
         )
 
 def fill_board_topic_list_object(topic_list=[]):
