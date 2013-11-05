@@ -20,9 +20,9 @@ class MiscProcessor(BasicProcessor, jbsProcessorMixin):
         topics = []
         for topic in items:
             topic_id = topic['topicid']
-            topic = self.__get_first_post_by_topic_id(topic_id)
-            topic = TopicFormatter(topic).format()
-            topics.append(topic)
+            t = self.__get_first_post_by_topic_id(topic_id)
+            t = TopicFormatter(t).format()
+            topics.append(t)
 
         formatter = TopicListFormatter(topics)
         return formatter.format()
@@ -41,8 +41,9 @@ class MiscProcessor(BasicProcessor, jbsProcessorMixin):
         topics = []
         for topic in items:
             topic_id = topic['topicid']
-            topic = TopicFormatter(topic).format()
-            topics.append(topic)
+            t = self.__get_first_post_by_topic_id(topic_id)
+            t = TopicFormatter(topic).format()
+            topics.append(t)
 
         formatter = TopicListFormatter(topics)
         return formatter.format()
