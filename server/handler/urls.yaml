@@ -154,3 +154,15 @@ MailHandler:
         url: /del_mail/
         methods: [POST]
         require_auth: True
+
+MiscHandler:
+    url_prefix: /misc
+
+    GetMyTopics:
+        url: /get_my_topics/
+        methods: [GET]
+        require_auth: True
+
+    GetNewestTopics:
+        url: /get_newest_topics/<offset>/
+        methods: [GET]

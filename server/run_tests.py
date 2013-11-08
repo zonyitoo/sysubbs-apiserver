@@ -5,6 +5,7 @@ from test.test_user import TestUser
 from test.test_post import TestPost
 from test.test_session import TestSession
 from test.test_mail import TestMail
+from test.test_misc import TestMisc
 import unittest
 """
 testloader = unittest.TestLoader()

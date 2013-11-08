@@ -7,3 +7,4 @@ __description__ =  """
 from jbs import UserProcessor
 from jbs import SessionProcessor
 from jbs import MailProcessor
+from jbs import MiscProcessor

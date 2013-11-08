@@ -228,3 +228,16 @@ class BasicMailProcessor(Processor):
         delete a mail :(
         """
         raise NotImplementedError()
+
+class BasicMiscProcessor(Processor):
+    def get_my_topic(self):
+        """
+        get my topics
+        """
+        raise NotImplementedError()
+
+    def get_new_topic(self, offset=0):
+        """
+        get the newest topics, return 32 topics each time
+        """
+        raise NotImplementedError()

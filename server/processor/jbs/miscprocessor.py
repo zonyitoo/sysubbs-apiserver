@@ -1,11 +1,12 @@
 import requests
 
 from server.basic.formatter import fill_fail_format, fill_success_format
-from server.basic.processor import BasicProcessor
+from server.basic.processor import BasicMiscProcessor
 from jbsprocess import jbsProcessorMixin
 from miscformatter import TopicFormatter, TopicListFormatter
+from urls import *
 
-class MiscProcessor(BasicProcessor, jbsProcessorMixin):
+class MiscProcessor(BasicMiscProcessor, jbsProcessorMixin):
     def get_my_topic(self):
         """
         get my topics
@@ -29,7 +30,7 @@ class MiscProcessor(BasicProcessor, jbsProcessorMixin):
 
     def get_new_topic(self, offset=0):
         """
-        get the newest topics
+        get the newest topics, return 32 topics each time
 
         Returns:
             Board List Object
@@ -41,8 +42,8 @@ class MiscProcessor(BasicProcessor, jbsProcessorMixin):
         topics = []
         for topic in items:
             topic_id = topic['topicid']
-            t = self.__get_first_post_by_topic_id(topic_id)
-            t = TopicFormatter(topic).format()
+            first_post = self.__get_first_post_by_topic_id(topic_id)
+            t = TopicFormatter(first_post).format()
             topics.append(t)
 
         formatter = TopicListFormatter(topics)
